@@ -570,37 +570,122 @@
     @keyframes fadeUp { from{opacity:0;transform:translateY(34px)} to{opacity:1;transform:translateY(0)} }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
+    /* ── SCROLL PROGRESS ── */
+    .progress-bar {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--gold), #4ade80);
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center;
+      gap: 5px; width: 36px; height: 36px;
+      background: none; border: none; padding: 4px;
+      z-index: 1100;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--cream); border-radius: 2px;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
+      transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-drawer {
+      display: none;
+      position: fixed; inset: 0; z-index: 1050;
+      background: rgba(10,26,15,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 36px;
+      transform: translateY(-100%);
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .mobile-drawer.open { transform: translateY(0); }
+    .mobile-drawer .d-link {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2rem, 9vw, 3.2rem);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--cream); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .mobile-drawer .d-link:hover { color: var(--gold); }
+    .mobile-drawer .d-cta {
+      margin-top: 8px;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--bg2); background: var(--cream);
+      padding: 14px 40px; border-radius: 2px;
+      text-decoration: none;
+    }
+
+    /* ── STICKY MOBILE ORDER BAR ── */
+    .mobile-order-bar {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 900;
+      padding: 12px 20px;
+      background: rgba(10,26,15,0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(232,228,200,0.1);
+    }
+    .mobile-order-bar a {
+      display: block; width: 100%; text-align: center;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--bg2); background: var(--cream);
+      padding: 15px; border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .mobile-order-bar a:active { background: #d4d0b5; }
+
     /* ── MOBILE ── */
     @media (max-width: 900px) {
       nav { padding: 16px 20px; }
       nav.scrolled { padding: 12px 20px; }
       .nav-links { display: none; }
-      #hero { grid-template-columns: 1fr; padding: 100px 20px 60px; gap: 40px; }
+      .hamburger { display: flex; }
+      .mobile-drawer { display: flex; }
+      .mobile-order-bar { display: block; }
+
+      #hero { grid-template-columns: 1fr; padding: 80px 20px 100px; gap: 20px; }
       .hero-right { order: -1; }
-      .hero-product-wrap { min-height: 420px; }
-      .hero-product-stage { min-height: 380px; }
-      .hero-product-img {
-        width: min(430px, 82vw);
-        max-height: 390px;
-      }
-      .hero-product-tag {
-        left: 0;
-        bottom: -10px;
-        padding: 12px 14px;
-      }
-      .hero-arrows {
-        right: 0;
-        bottom: -8px;
-      }
+      .hero-product-wrap { min-height: 300px; }
+      .hero-product-stage { min-height: 260px; }
+      .hero-product-img { width: min(300px, 78vw); max-height: 280px; }
+      .hero-product-tag { left: 0; bottom: -10px; padding: 10px 12px; }
+      .hero-arrows { right: 0; bottom: -8px; }
+      .hero-title { font-size: clamp(52px, 15vw, 80px); }
+
       #products, #why, #spotlight, #cta, footer { padding-left: 20px; padding-right: 20px; }
-      #products, #why, #spotlight, #cta { padding-top: 80px; padding-bottom: 80px; }
+      #products, #why, #spotlight { padding-top: 70px; padding-bottom: 70px; }
+      #cta { padding-top: 80px; padding-bottom: 100px; }
+      footer { padding-bottom: 90px; }
+
       .products-grid { grid-template-columns: 1fr; }
-      .why-grid, .spot-grid { grid-template-columns: 1fr; gap: 48px; }
-      .feats { grid-template-columns: 1fr; }
+      .why-grid, .spot-grid { grid-template-columns: 1fr; gap: 36px; }
+      .feats { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .feat { padding: 18px 16px; }
       .section-label { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+      .spot-img-wrap { max-height: 380px; overflow: hidden; }
+      .spot-img-wrap img { object-fit: cover; object-position: center top; }
+
       footer { flex-direction: column; gap: 20px; text-align: center; }
       .footer-links { flex-wrap: wrap; justify-content: center; }
       .cursor { display: none !important; }
+
+      body { padding-bottom: 70px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -610,7 +695,17 @@
 </head>
 <body>
 
+  <div class="progress-bar" id="progressBar"></div>
   <div class="cursor" id="cursor"></div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="#products" class="d-link" data-drawer-close>Shop</a>
+    <a href="#why"      class="d-link" data-drawer-close>Why Us</a>
+    <a href="#spotlight" class="d-link" data-drawer-close>Rocky</a>
+    <a href="#cta"      class="d-link" data-drawer-close>Order</a>
+    <a href="https://www.instagram.com/tune.tagz/" class="d-cta" target="_blank" rel="noopener">Order on Instagram</a>
+  </div>
 
   <!-- NAV -->
   <nav id="nav">
@@ -622,7 +717,15 @@
       <a href="#cta"      class="nav-link">Order</a>
     </div>
     <a href="https://www.instagram.com/tune.tagz/" class="nav-cta" target="_blank" rel="noopener">Shop Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- STICKY MOBILE ORDER BAR -->
+  <div class="mobile-order-bar">
+    <a href="https://www.instagram.com/tune.tagz/" target="_blank" rel="noopener">Order on Instagram</a>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -827,7 +930,7 @@
   </footer>
 
   <script>
-    // Cursor
+    /* ── CURSOR ── */
     const cursor = document.getElementById('cursor');
     if (window.matchMedia('(hover: hover)').matches) {
       document.addEventListener('mousemove', e => {
@@ -840,12 +943,36 @@
       });
     }
 
-    // Nav scroll shrink
+    /* ── SCROLL PROGRESS BAR ── */
+    const progressBar = document.getElementById('progressBar');
+    function updateProgress() {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / total * 100) + '%';
+    }
+
+    /* ── NAV SCROLL ── */
     window.addEventListener('scroll', () => {
       document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+      updateProgress();
+    }, { passive: true });
+
+    /* ── HAMBURGER / DRAWER ── */
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('mobileDrawer');
+    hamburger.addEventListener('click', () => {
+      const open = drawer.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    document.querySelectorAll('[data-drawer-close]').forEach(el => {
+      el.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+      });
     });
 
-    // Hero product carousel
+    /* ── HERO CAROUSEL ── */
     const heroProducts = Array.from(document.querySelectorAll('.hero-product-img'));
     const heroLabel = document.querySelector('.hero-tag-label');
     const heroPrice = document.querySelector('.hero-tag-price');
@@ -853,30 +980,73 @@
 
     function setHeroProduct(nextIndex) {
       heroIndex = (nextIndex + heroProducts.length) % heroProducts.length;
-      heroProducts.forEach((img, index) => {
-        img.classList.toggle('is-active', index === heroIndex);
-        img.classList.toggle('is-side', index !== heroIndex);
+      heroProducts.forEach((img, i) => {
+        img.classList.toggle('is-active', i === heroIndex);
+        img.classList.toggle('is-side', i !== heroIndex);
       });
-      const active = heroProducts[heroIndex];
-      heroLabel.textContent = active.dataset.name;
-      heroPrice.textContent = active.dataset.price;
+      heroLabel.textContent = heroProducts[heroIndex].dataset.name;
+      heroPrice.textContent = heroProducts[heroIndex].dataset.price;
     }
 
     document.querySelector('[data-hero-next]').addEventListener('click', () => setHeroProduct(heroIndex + 1));
     document.querySelector('[data-hero-prev]').addEventListener('click', () => setHeroProduct(heroIndex - 1));
 
-    // Active nav link
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-    new IntersectionObserver(entries => {
+    /* ── TOUCH SWIPE ON HERO ── */
+    const heroStage = document.querySelector('.hero-product-stage');
+    let touchStartX = 0;
+    heroStage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    heroStage.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) setHeroProduct(dx < 0 ? heroIndex + 1 : heroIndex - 1);
+    }, { passive: true });
+
+    /* ── CARD TILT (desktop only) ── */
+    if (window.matchMedia('(hover: hover)').matches) {
+      document.querySelectorAll('.pcard').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = `translateY(-8px) perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 6}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+        });
+      });
+    }
+
+    /* ── PRICE COUNTER ANIMATION ── */
+    function animateCount(el) {
+      const text = el.textContent;
+      const match = text.match(/[\d,]+/);
+      if (!match) return;
+      const target = parseInt(match[0].replace(',', ''));
+      const prefix = text.slice(0, text.indexOf(match[0]));
+      const suffix = text.slice(text.indexOf(match[0]) + match[0].length);
+      let start = 0;
+      const duration = 900;
+      const step = timestamp => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = prefix + Math.round(ease * target) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+    const priceObserver = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          navLinks.forEach(l => l.classList.remove('active'));
-          const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-          if (a) a.classList.add('active');
+          animateCount(e.target);
+          priceObserver.unobserve(e.target);
         }
       });
-    }, { rootMargin: '-40% 0px -55% 0px' }).observe;
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.pprice, .hero-tag-price').forEach(el => priceObserver.observe(el));
+
+    /* ── ACTIVE NAV LINK ── */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
     sections.forEach(s => {
       new IntersectionObserver(entries => {
         entries.forEach(e => {
@@ -889,12 +1059,12 @@
       }, { rootMargin: '-40% 0px -55% 0px' }).observe(s);
     });
 
-    // Scroll reveal
+    /* ── SCROLL REVEAL ── */
     const ro = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
   </script>
 </body>
