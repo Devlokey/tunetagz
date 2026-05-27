@@ -15,6 +15,7 @@
   <meta name="twitter:description" content="Custom-engraved Spotify code keychains. Your favorite song, always with you." />
   <meta name="twitter:image" content="https://devlokey.github.io/Tune/POSTER%201.png" />
   <link rel="canonical" href="https://devlokey.github.io/Tune/" />
+  <meta name="theme-color" content="#0d1f13" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='18' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
   <link rel="preload" as="image" href="PRODUCT%201.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -456,7 +457,6 @@
       transition: border-color 0.3s, background 0.3s;
     }
     .feat:hover { border-color: rgba(74,222,128,0.3); background: rgba(34,197,94,0.04); }
-    .feat-icon { font-size: 1.4rem; margin-bottom: 12px; }
     .feat-title { font-weight: 600; font-size: 0.82rem; color: var(--cream); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.06em; }
     .feat-desc { font-size: 0.78rem; line-height: 1.6; color: var(--muted); }
 
@@ -703,6 +703,9 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
+
+    /* ── FOCUS VISIBLE ── */
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -782,6 +785,8 @@
   <div class="mobile-order-bar">
     <a href="https://www.instagram.com/tune.tagz/" target="_blank" rel="noopener noreferrer">Order on Instagram</a>
   </div>
+
+  <main id="main-content">
 
   <!-- HERO -->
   <section id="hero">
@@ -974,6 +979,8 @@
     </div>
   </section>
 
+  </main>
+
   <!-- FOOTER -->
   <footer>
     <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" />
@@ -1015,6 +1022,7 @@
     /* ── HAMBURGER / DRAWER ── */
     const hamburger = document.getElementById('hamburger');
     const drawer = document.getElementById('mobileDrawer');
+    const mainContent = document.getElementById('main-content');
 
     function closeDrawer() {
       drawer.classList.remove('open');
@@ -1022,6 +1030,7 @@
       hamburger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       hamburger.focus();
+      if (mainContent) { mainContent.removeAttribute('aria-hidden'); mainContent.removeAttribute('inert'); }
     }
 
     hamburger.addEventListener('click', () => {
@@ -1030,8 +1039,11 @@
       hamburger.setAttribute('aria-expanded', String(open));
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) {
+        if (mainContent) { mainContent.setAttribute('aria-hidden', 'true'); mainContent.setAttribute('inert', ''); }
         const firstFocusable = drawer.querySelector('a, button');
         if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
+      } else {
+        if (mainContent) { mainContent.removeAttribute('aria-hidden'); mainContent.removeAttribute('inert'); }
       }
     });
 
