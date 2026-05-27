@@ -754,7 +754,7 @@
   <div class="cursor" id="cursor"></div>
 
   <!-- MOBILE DRAWER -->
-  <div class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <a href="#products" class="d-link" data-drawer-close>Shop</a>
     <a href="#why"      class="d-link" data-drawer-close>Why Us</a>
     <a href="#spotlight" class="d-link" data-drawer-close>Rocky</a>
@@ -772,7 +772,7 @@
       <a href="#cta"      class="nav-link">Order</a>
     </div>
     <a href="https://www.instagram.com/tune.tagz/" class="nav-cta" target="_blank" rel="noopener noreferrer">Shop Now</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobileDrawer">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -798,7 +798,7 @@
     <div class="hero-right">
       <div class="hero-product-wrap">
         <div class="hero-product-stage" aria-live="polite">
-          <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" />
+          <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" fetchpriority="high" />
           <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" />
         </div>
         <div class="hero-product-tag">
@@ -1014,18 +1014,25 @@
     /* ── HAMBURGER / DRAWER ── */
     const hamburger = document.getElementById('hamburger');
     const drawer = document.getElementById('mobileDrawer');
+
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
     hamburger.addEventListener('click', () => {
       const open = drawer.classList.toggle('open');
       hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', String(open));
       document.body.style.overflow = open ? 'hidden' : '';
     });
     document.querySelectorAll('[data-drawer-close]').forEach(el => {
-      el.addEventListener('click', () => {
-        drawer.classList.remove('open');
-        hamburger.classList.remove('open');
-        document.body.style.overflow = '';
-      });
+      el.addEventListener('click', closeDrawer);
     });
+    drawer.addEventListener('click', e => { if (e.target === drawer) closeDrawer(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer(); });
 
     /* ── HERO CAROUSEL ── */
     const heroProducts = Array.from(document.querySelectorAll('.hero-product-img'));
@@ -1081,7 +1088,10 @@
 
     /* ── PRICE COUNTER ANIMATION ── */
     function animateCount(el) {
-      const text = el.textContent;
+      // Operate on the first text node so child elements (e.g. <small>) are preserved
+      const textNode = Array.from(el.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
+      const src = textNode || el;
+      const text = src.nodeType === 3 ? src.textContent : el.textContent;
       const match = text.match(/[\d,]+/);
       if (!match) return;
       const target = parseInt(match[0].replace(',', ''));
@@ -1093,7 +1103,8 @@
         if (!start) start = timestamp;
         const progress = Math.min((timestamp - start) / duration, 1);
         const ease = 1 - Math.pow(1 - progress, 3);
-        el.textContent = prefix + Math.round(ease * target) + suffix;
+        const val = prefix + Math.round(ease * target) + suffix;
+        if (src.nodeType === 3) { src.textContent = val; } else { el.textContent = val; }
         if (progress < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
