@@ -16,6 +16,7 @@
   <meta name="twitter:image" content="https://devlokey.github.io/Tune/POSTER%201.png" />
   <link rel="canonical" href="https://devlokey.github.io/Tune/" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='18' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
+  <link rel="preload" as="image" href="PRODUCT%201.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -802,7 +803,7 @@
           <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" />
         </div>
         <div class="hero-product-tag">
-          <div class="hero-tag-dot"></div>
+          <div class="hero-tag-dot" aria-hidden="true"></div>
           <span class="hero-tag-label">Spotify Code Tag</span>
           <span class="hero-tag-price">₹699</span>
         </div>
@@ -942,15 +943,15 @@
         <p class="spot-desc">Designed by TuneTagZ. The Rocky is a 3D-printed figure keychain with an intricate topographic maze pattern across every surface — matte black, silver hardware, utterly unique.</p>
         <div class="spot-features">
           <div class="spot-feat">
-            <span class="spot-feat-icon">—</span>
+            <span class="spot-feat-icon" aria-hidden="true">—</span>
             <div class="spot-feat-text">Matte Black Finish <span>Premium 3D printed resin, scratch-resistant</span></div>
           </div>
           <div class="spot-feat">
-            <span class="spot-feat-icon">—</span>
+            <span class="spot-feat-icon" aria-hidden="true">—</span>
             <div class="spot-feat-text">Silver Steel Hardware <span>Durable chain and ring included</span></div>
           </div>
           <div class="spot-feat">
-            <span class="spot-feat-icon">—</span>
+            <span class="spot-feat-icon" aria-hidden="true">—</span>
             <div class="spot-feat-text">Ships All Over India <span>Tracked delivery in 5–7 working days</span></div>
           </div>
         </div>
@@ -1020,6 +1021,7 @@
       hamburger.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+      hamburger.focus();
     }
 
     hamburger.addEventListener('click', () => {
@@ -1027,6 +1029,22 @@
       hamburger.classList.toggle('open', open);
       hamburger.setAttribute('aria-expanded', String(open));
       document.body.style.overflow = open ? 'hidden' : '';
+      if (open) {
+        const firstFocusable = drawer.querySelector('a, button');
+        if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
+      }
+    });
+
+    drawer.addEventListener('keydown', e => {
+      if (e.key !== 'Tab' || !drawer.classList.contains('open')) return;
+      const focusable = Array.from(drawer.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])'));
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
     });
     document.querySelectorAll('[data-drawer-close]').forEach(el => {
       el.addEventListener('click', closeDrawer);
