@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>TuneTagZ — Wear Your Sound</title>
   <meta name="description" content="Custom-engraved Spotify code keychains for music lovers. Scan your favorite song, carry it everywhere. Ships across India." />
   <meta property="og:title" content="TuneTagZ — Wear Your Sound" />
@@ -649,6 +649,7 @@
       position: fixed; bottom: 0; left: 0; right: 0;
       z-index: 900;
       padding: 12px 20px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
       background: rgba(10,26,15,0.96);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -687,7 +688,7 @@
       #products, #why, #spotlight, #cta, footer { padding-left: 20px; padding-right: 20px; }
       #products, #why, #spotlight { padding-top: 70px; padding-bottom: 70px; }
       #cta { padding-top: 80px; padding-bottom: 100px; }
-      footer { padding-bottom: 90px; }
+      footer { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
 
       .products-grid { grid-template-columns: 1fr; }
       .why-grid, .spot-grid { grid-template-columns: 1fr; gap: 36px; }
@@ -701,7 +702,7 @@
       .footer-links { flex-wrap: wrap; justify-content: center; }
       .cursor { display: none !important; }
 
-      body { padding-bottom: 70px; }
+      body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -803,8 +804,8 @@
   <!-- HERO -->
   <span class="sr-only" id="heroAnnounce" role="status" aria-live="polite" aria-atomic="true"></span>
   <section id="hero">
-    <div class="hero-spotlight"></div>
-    <div class="hero-grain"></div>
+    <div class="hero-spotlight" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
     <div class="hero-left">
       <p class="hero-eyebrow">Personalized Music Keychains</p>
       <h1 class="hero-title">Wear<br/>Your<br/><span class="accent">Sound</span></h1>
@@ -913,7 +914,7 @@
 
   <!-- WHY US -->
   <section id="why">
-    <div class="why-bg-glow"></div>
+    <div class="why-bg-glow" aria-hidden="true"></div>
     <div>
       <p class="s-eyebrow reveal">Why TuneTagZ</p>
       <h2 class="s-title reveal">Built for<br/>Music People</h2>
@@ -946,7 +947,7 @@
 
   <!-- PRODUCT SPOTLIGHT — ROCKY -->
   <section id="spotlight">
-    <div class="spot-bg"></div>
+    <div class="spot-bg" aria-hidden="true"></div>
     <div>
       <p class="s-eyebrow reveal">Featured Drop</p>
       <h2 class="s-title reveal">Spotlight</h2>
@@ -983,7 +984,7 @@
 
   <!-- CTA -->
   <section id="cta">
-    <div class="cta-glow"></div>
+    <div class="cta-glow" aria-hidden="true"></div>
     <p class="cta-eyebrow reveal">Ready to Order?</p>
     <h2 class="cta-title reveal">Your song.<br/><span>Your tag.</span></h2>
     <p class="cta-sub reveal">DM us on Instagram or click below to place your custom order. Ships across India.</p>
@@ -1107,7 +1108,7 @@
     }
     const heroWrap = document.querySelector('.hero-product-wrap');
     heroWrap.addEventListener('mouseenter', () => clearInterval(heroAutoTimer));
-    heroWrap.addEventListener('mouseleave', () => { heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000); });
+    heroWrap.addEventListener('mouseleave', () => { clearInterval(heroAutoTimer); heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000); });
 
     /* ── TOUCH SWIPE ON HERO ── */
     const heroStage = document.querySelector('.hero-product-stage');
