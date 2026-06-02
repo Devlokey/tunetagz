@@ -671,8 +671,8 @@
 
     /* ── MOBILE ── */
     @media (max-width: 900px) {
-      nav { padding: 16px 20px; }
-      nav.scrolled { padding: 12px 20px; }
+      nav { padding: calc(16px + env(safe-area-inset-top, 0px)) 20px 16px; }
+      nav.scrolled { padding: calc(12px + env(safe-area-inset-top, 0px)) 20px 12px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
       .nav-cta { display: none; }
@@ -791,7 +791,7 @@
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- MOBILE DRAWER -->
-  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
     <a href="#products" class="d-link" data-drawer-close>Shop</a>
     <a href="#why"      class="d-link" data-drawer-close>Why Us</a>
     <a href="#spotlight" class="d-link" data-drawer-close>Rocky</a>
@@ -823,12 +823,12 @@
 
   <!-- HERO -->
   <span class="sr-only" id="heroAnnounce" role="status" aria-live="polite" aria-atomic="true"></span>
-  <section id="hero">
+  <section id="hero" aria-labelledby="hero-heading">
     <div class="hero-spotlight" aria-hidden="true"></div>
     <div class="hero-grain" aria-hidden="true"></div>
     <div class="hero-left">
       <p class="hero-eyebrow">Personalized Music Keychains</p>
-      <h1 class="hero-title">Wear<br/>Your<br/><span class="accent">Sound</span></h1>
+      <h1 id="hero-heading" class="hero-title">Wear<br/>Your<br/><span class="accent">Sound</span></h1>
       <p class="hero-sub">Custom-engraved keychains for music lovers. Scan your Spotify code, carry your favorite song — everywhere you go.</p>
       <div class="hero-cta-row">
         <a href="#products" class="btn-primary">Shop Collection</a>
@@ -863,11 +863,11 @@
   </div>
 
   <!-- PRODUCTS -->
-  <section id="products">
+  <section id="products" aria-labelledby="products-heading">
     <div class="section-label">
       <div>
         <p class="s-eyebrow reveal">The Collection</p>
-        <h2 class="s-title reveal">Our Products</h2>
+        <h2 id="products-heading" class="s-title reveal">Our Products</h2>
       </div>
       <span class="s-count reveal">02 / 03 Available</span>
     </div>
@@ -933,11 +933,11 @@
   </section>
 
   <!-- WHY US -->
-  <section id="why">
+  <section id="why" aria-labelledby="why-heading">
     <div class="why-bg-glow" aria-hidden="true"></div>
     <div>
       <p class="s-eyebrow reveal">Why TuneTagZ</p>
-      <h2 class="s-title reveal">Built for<br/>Music People</h2>
+      <h2 id="why-heading" class="s-title reveal">Built for<br/>Music People</h2>
     </div>
     <div class="why-grid">
       <div class="reveal">
@@ -966,11 +966,11 @@
   </section>
 
   <!-- PRODUCT SPOTLIGHT — ROCKY -->
-  <section id="spotlight">
+  <section id="spotlight" aria-labelledby="spotlight-heading">
     <div class="spot-bg" aria-hidden="true"></div>
     <div>
       <p class="s-eyebrow reveal">Featured Drop</p>
-      <h2 class="s-title reveal">Spotlight</h2>
+      <h2 id="spotlight-heading" class="s-title reveal">Spotlight</h2>
     </div>
     <div class="spot-grid" style="margin-top:64px">
       <div class="spot-img-wrap reveal">
@@ -1003,10 +1003,10 @@
   </section>
 
   <!-- CTA -->
-  <section id="cta">
+  <section id="cta" aria-labelledby="cta-heading">
     <div class="cta-glow" aria-hidden="true"></div>
     <p class="cta-eyebrow reveal">Ready to Order?</p>
-    <h2 class="cta-title reveal">Your song.<br/><span>Your tag.</span></h2>
+    <h2 id="cta-heading" class="cta-title reveal">Your song.<br/><span>Your tag.</span></h2>
     <p class="cta-sub reveal">DM us on Instagram or click below to place your custom order. Ships across India.</p>
     <div class="reveal" style="display:flex;gap:14px;justify-content:center">
       <a href="https://www.instagram.com/tune.tagz/" class="btn-primary" target="_blank" rel="noopener noreferrer">Order on Instagram</a>
@@ -1062,6 +1062,7 @@
       drawer.classList.remove('open');
       hamburger.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       hamburger.focus();
       if (mainContent) { mainContent.removeAttribute('aria-hidden'); mainContent.removeAttribute('inert'); }
@@ -1073,10 +1074,12 @@
       hamburger.setAttribute('aria-expanded', String(open));
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) {
+        drawer.removeAttribute('aria-hidden');
         if (mainContent) { mainContent.setAttribute('aria-hidden', 'true'); mainContent.setAttribute('inert', ''); }
         const firstFocusable = drawer.querySelector('a, button');
         if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
       } else {
+        drawer.setAttribute('aria-hidden', 'true');
         if (mainContent) { mainContent.removeAttribute('aria-hidden'); mainContent.removeAttribute('inert'); }
       }
     });
@@ -1121,14 +1124,18 @@
     document.querySelector('[data-hero-next]').addEventListener('click', () => { setHeroProduct(heroIndex + 1); resetHeroTimer(); });
     document.querySelector('[data-hero-prev]').addEventListener('click', () => { setHeroProduct(heroIndex - 1); resetHeroTimer(); });
 
-    let heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let heroAutoTimer = prefersReducedMotion ? null : setInterval(() => setHeroProduct(heroIndex + 1), 5000);
     function resetHeroTimer() {
+      if (prefersReducedMotion) return;
       clearInterval(heroAutoTimer);
       heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000);
     }
     const heroWrap = document.querySelector('.hero-product-wrap');
-    heroWrap.addEventListener('mouseenter', () => clearInterval(heroAutoTimer));
-    heroWrap.addEventListener('mouseleave', () => { clearInterval(heroAutoTimer); heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000); });
+    heroWrap.addEventListener('mouseenter', () => { if (!prefersReducedMotion) clearInterval(heroAutoTimer); });
+    heroWrap.addEventListener('mouseleave', () => {
+      if (!prefersReducedMotion) { clearInterval(heroAutoTimer); heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000); }
+    });
 
     /* ── TOUCH SWIPE ON HERO ── */
     const heroStage = document.querySelector('.hero-product-stage');
