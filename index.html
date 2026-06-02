@@ -23,6 +23,9 @@
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='90' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
   <link rel="manifest" href="manifest.json" />
   <link rel="preload" as="image" href="PRODUCT%201.png" />
+  <meta name="geo.region" content="IN" />
+  <meta name="geo.placename" content="India" />
+  <link rel="dns-prefetch" href="//www.instagram.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -599,7 +602,7 @@
     .hamburger {
       display: none;
       flex-direction: column; justify-content: center; align-items: center;
-      gap: 5px; width: 36px; height: 36px;
+      gap: 5px; width: 44px; height: 44px;
       background: none; border: none; padding: 4px;
       z-index: 1100;
     }
@@ -723,6 +726,23 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TuneTagZ",
+    "url": "https://devlokey.github.io/Tune/",
+    "logo": "https://devlokey.github.io/Tune/TUNETAGZ%20LOGO.png",
+    "sameAs": ["https://www.instagram.com/tune.tagz/"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "url": "https://www.instagram.com/tune.tagz/"
+    },
+    "areaServed": "IN",
+    "description": "Custom-engraved Spotify code keychains for music lovers. Ships across India."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "TuneTagZ Products",
     "url": "https://devlokey.github.io/Tune/",
@@ -795,7 +815,7 @@
   </nav>
 
   <!-- STICKY MOBILE ORDER BAR -->
-  <div class="mobile-order-bar">
+  <div class="mobile-order-bar" role="region" aria-label="Quick order">
     <a href="https://www.instagram.com/tune.tagz/" target="_blank" rel="noopener noreferrer">Order on Instagram</a>
   </div>
 
