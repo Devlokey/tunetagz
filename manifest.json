@@ -3,6 +3,7 @@
   "short_name": "TuneTagZ",
   "description": "Custom-engraved Spotify code keychains for music lovers.",
   "start_url": "/Tune/",
+  "scope": "/Tune/",
   "display": "standalone",
   "background_color": "#0d1f13",
   "theme_color": "#0d1f13",

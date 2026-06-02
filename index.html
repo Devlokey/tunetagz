@@ -495,7 +495,6 @@
       box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 50px rgba(34,197,94,0.1);
     }
     .spot-img-wrap img { width: 100%; display: block; border-radius: 4px; object-fit: contain; }
-    .spot-right { }
     .spot-tag {
       font-family: 'DM Mono', monospace;
       font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
@@ -767,8 +766,8 @@
 </head>
 <body>
 
-  <div class="progress-bar" id="progressBar"></div>
-  <div class="cursor" id="cursor"></div>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- MOBILE DRAWER -->
   <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
@@ -780,7 +779,7 @@
   </div>
 
   <!-- NAV -->
-  <nav id="nav">
+  <nav id="nav" aria-label="Main navigation">
     <div class="nav-logo"><img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" /></div>
     <div class="nav-links">
       <a href="#products" class="nav-link">Shop</a>
@@ -817,9 +816,9 @@
     </div>
     <div class="hero-right">
       <div class="hero-product-wrap">
-        <div class="hero-product-stage" aria-live="polite">
+        <div class="hero-product-stage">
           <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" fetchpriority="high" />
-          <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" />
+          <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" loading="lazy" />
         </div>
         <div class="hero-product-tag">
           <div class="hero-tag-dot" aria-hidden="true"></div>
@@ -835,7 +834,7 @@
   </section>
 
   <!-- MARQUEE -->
-  <div class="marquee-wrap">
+  <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
       <div class="marquee-item">Custom Engraved<span class="mdot"></span>Spotify Code Keychains<span class="mdot"></span>3D Printed<span class="mdot"></span>Premium Finish<span class="mdot"></span>Ships Across India<span class="mdot"></span>Personalized Gift<span class="mdot"></span>Music Lovers<span class="mdot"></span>Handcrafted<span class="mdot"></span>NFC Enabled<span class="mdot"></span></div>
       <div class="marquee-item">Custom Engraved<span class="mdot"></span>Spotify Code Keychains<span class="mdot"></span>3D Printed<span class="mdot"></span>Premium Finish<span class="mdot"></span>Ships Across India<span class="mdot"></span>Personalized Gift<span class="mdot"></span>Music Lovers<span class="mdot"></span>Handcrafted<span class="mdot"></span>NFC Enabled<span class="mdot"></span></div>
@@ -997,12 +996,12 @@
 
   <!-- FOOTER -->
   <footer>
-    <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" />
+    <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" />
     <span class="footer-copy">© 2026 TuneTagZ. All rights reserved.</span>
     <div class="footer-links">
-      <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer">Contact</a>
-      <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer">FAQ</a>
+      <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="TuneTagZ on Instagram">Instagram</a>
+      <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="Contact us on Instagram">Contact</a>
+      <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="FAQ — message us on Instagram">FAQ</a>
     </div>
   </footer>
 
