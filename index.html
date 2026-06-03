@@ -22,7 +22,8 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='18' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='90' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="preload" as="image" href="PRODUCT%201.png" />
+  <link rel="preload" as="image" href="PRODUCT%201.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="TUNETAGZ%20LOGO.png" fetchpriority="high" />
   <meta name="geo.region" content="IN" />
   <meta name="geo.placename" content="India" />
   <link rel="dns-prefetch" href="//www.instagram.com" />
@@ -745,6 +746,7 @@
     /* ── FOCUS VISIBLE ── */
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
   </style>
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -775,6 +777,8 @@
         "item": {
           "@type": "Product",
           "name": "Spotify Code Tag",
+          "sku": "SPT-001",
+          "image": "https://devlokey.github.io/Tune/POSTER%201.png",
           "description": "Custom-engraved Spotify code keychain. Scan your favorite track, engraved in gold on matte black with your name on the back.",
           "brand": { "@type": "Brand", "name": "TuneTagZ" },
           "offers": {
@@ -792,6 +796,8 @@
         "item": {
           "@type": "Product",
           "name": "Rocky Keychain",
+          "sku": "RKY-001",
+          "image": "https://devlokey.github.io/Tune/POSTER%202.png",
           "description": "3D-printed figure keychain with intricate topographic maze pattern. Matte black with silver hardware.",
           "brand": { "@type": "Brand", "name": "TuneTagZ" },
           "offers": {
@@ -825,7 +831,7 @@
 
   <!-- NAV -->
   <nav id="nav" aria-label="Main navigation">
-    <div class="nav-logo"><img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" /></div>
+    <div class="nav-logo"><img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" fetchpriority="high" /></div>
     <div class="nav-links">
       <a href="#products" class="nav-link">Shop</a>
       <a href="#why"      class="nav-link">Why Us</a>
@@ -887,8 +893,8 @@
   <!-- MARQUEE -->
   <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
-      <div class="marquee-item">Custom Engraved<span class="mdot"></span>Spotify Code Keychains<span class="mdot"></span>3D Printed<span class="mdot"></span>Premium Finish<span class="mdot"></span>Ships Across India<span class="mdot"></span>Personalized Gift<span class="mdot"></span>Music Lovers<span class="mdot"></span>Handcrafted<span class="mdot"></span>NFC Enabled<span class="mdot"></span></div>
-      <div class="marquee-item">Custom Engraved<span class="mdot"></span>Spotify Code Keychains<span class="mdot"></span>3D Printed<span class="mdot"></span>Premium Finish<span class="mdot"></span>Ships Across India<span class="mdot"></span>Personalized Gift<span class="mdot"></span>Music Lovers<span class="mdot"></span>Handcrafted<span class="mdot"></span>NFC Enabled<span class="mdot"></span></div>
+      <div class="marquee-item">Custom Engraved<span class="mdot"></span>Spotify Code Keychains<span class="mdot"></span>3D Printed<span class="mdot"></span>Premium Finish<span class="mdot"></span>Ships Across India<span class="mdot"></span>Personalized Gift<span class="mdot"></span>Music Lovers<span class="mdot"></span>Handcrafted<span class="mdot"></span>Customizable<span class="mdot"></span></div>
+      <div class="marquee-item">Custom Engraved<span class="mdot"></span>Spotify Code Keychains<span class="mdot"></span>3D Printed<span class="mdot"></span>Premium Finish<span class="mdot"></span>Ships Across India<span class="mdot"></span>Personalized Gift<span class="mdot"></span>Music Lovers<span class="mdot"></span>Handcrafted<span class="mdot"></span>Customizable<span class="mdot"></span></div>
     </div>
   </div>
 
