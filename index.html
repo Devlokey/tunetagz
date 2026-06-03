@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -714,6 +714,15 @@
       .hero-tag-dot { animation: none; opacity: 1; }
     }
 
+    .skip-link {
+      position: absolute; top: -999px; left: 0;
+      background: var(--gold); color: var(--bg2);
+      padding: 8px 16px; font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.06em; z-index: 99999;
+      border-radius: 0 0 4px 0; text-decoration: none;
+    }
+    .skip-link:focus { top: 0; }
+
     .sr-only {
       position: absolute; width: 1px; height: 1px;
       padding: 0; margin: -1px; overflow: hidden;
@@ -787,6 +796,8 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
@@ -839,7 +850,7 @@
       <div class="hero-product-wrap">
         <div class="hero-product-stage">
           <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" fetchpriority="high" />
-          <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" loading="lazy" />
+          <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" loading="lazy" decoding="async" />
         </div>
         <div class="hero-product-tag">
           <div class="hero-tag-dot" aria-hidden="true"></div>
@@ -879,7 +890,7 @@
         <div class="pimg-wrap">
           <span class="pbadge">Bestseller</span>
           <span class="psku">SPT-001</span>
-          <img class="pimg" src="POSTER%201.png" alt="Spotify Code Tag product poster" loading="lazy" />
+          <img class="pimg" src="POSTER%201.png" alt="Spotify Code Tag product poster" loading="lazy" decoding="async" />
         </div>
         <div class="pbody">
           <div class="pbar"></div>
@@ -897,7 +908,7 @@
         <div class="pimg-wrap">
           <span class="pbadge">New</span>
           <span class="psku">RKY-001</span>
-          <img class="pimg" src="POSTER%202.png" alt="Rocky Keychain product poster" loading="lazy" />
+          <img class="pimg" src="POSTER%202.png" alt="Rocky Keychain product poster" loading="lazy" decoding="async" />
         </div>
         <div class="pbody">
           <div class="pbar"></div>
@@ -974,7 +985,7 @@
     </div>
     <div class="spot-grid" style="margin-top:64px">
       <div class="spot-img-wrap reveal">
-        <img src="PRODUCT%202.png" alt="Rocky Keychain" loading="lazy" />
+        <img src="PRODUCT%202.png" alt="Rocky Keychain" loading="lazy" decoding="async" />
       </div>
       <div class="spot-right reveal">
         <p class="spot-tag">RKY-001 — Limited Edition</p>
@@ -1017,7 +1028,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" />
+    <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" decoding="async" />
     <span class="footer-copy">© 2026 TuneTagZ. All rights reserved.</span>
     <div class="footer-links">
       <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="TuneTagZ on Instagram">Instagram</a>
@@ -1143,7 +1154,7 @@
     heroStage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     heroStage.addEventListener('touchend', e => {
       const dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 40) setHeroProduct(dx < 0 ? heroIndex + 1 : heroIndex - 1);
+      if (Math.abs(dx) > 40) { setHeroProduct(dx < 0 ? heroIndex + 1 : heroIndex - 1); resetHeroTimer(); }
     }, { passive: true });
 
     /* ── CARD TILT (desktop only) ── */
