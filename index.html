@@ -30,6 +30,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="preload" as="image" href="PRODUCT%201.png" fetchpriority="high" />
   <link rel="preload" as="image" href="TUNETAGZ%20LOGO.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="PRODUCT%202.png" fetchpriority="low" />
   <meta name="geo.region" content="IN" />
   <meta name="geo.placename" content="India" />
   <meta name="color-scheme" content="dark" />
@@ -129,6 +130,7 @@
     /* ── HERO ── */
     #hero {
       min-height: 100vh;
+      min-height: 100svh;
       position: relative;
       overflow: hidden;
       display: grid;
@@ -337,6 +339,9 @@
     }
     .mdot { width: 3px; height: 3px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
     @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @media (hover: hover) {
+      .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+    }
 
     /* ── PRODUCTS ── */
     #products { padding: 130px 52px; position: relative; }
