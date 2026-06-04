@@ -888,8 +888,8 @@
         </div>
         <div class="hero-controls">
           <div class="hero-dots" role="group" aria-label="Product slides">
-            <button class="hero-dot active" type="button" data-dot="0" aria-label="Spotify Code Tag"></button>
-            <button class="hero-dot" type="button" data-dot="1" aria-label="Rocky Keychain"></button>
+            <button class="hero-dot active" type="button" data-dot="0" aria-label="Spotify Code Tag" aria-pressed="true"></button>
+            <button class="hero-dot" type="button" data-dot="1" aria-label="Rocky Keychain" aria-pressed="false"></button>
           </div>
           <div class="hero-arrows">
             <button class="hero-arrow" type="button" data-hero-prev aria-label="Previous product">‹</button>
@@ -1076,10 +1076,18 @@
     /* ── CURSOR ── */
     const cursor = document.getElementById('cursor');
     if (window.matchMedia('(hover: hover)').matches) {
+      let _cx = 0, _cy = 0, _cp = false;
       document.addEventListener('mousemove', e => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-      });
+        _cx = e.clientX; _cy = e.clientY;
+        if (!_cp) {
+          _cp = true;
+          requestAnimationFrame(() => {
+            cursor.style.left = _cx + 'px';
+            cursor.style.top = _cy + 'px';
+            _cp = false;
+          });
+        }
+      }, { passive: true });
       document.querySelectorAll('a, button, .pcard, .feat').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
@@ -1177,7 +1185,7 @@
       const nextIdx = (heroIndex + 1) % heroProducts.length;
       document.querySelector('[data-hero-prev]').setAttribute('aria-label', `Previous: ${heroProducts[prevIdx].dataset.name}`);
       document.querySelector('[data-hero-next]').setAttribute('aria-label', `Next: ${heroProducts[nextIdx].dataset.name}`);
-      document.querySelectorAll('.hero-dot').forEach((dot, i) => { dot.classList.toggle('active', i === heroIndex); });
+      document.querySelectorAll('.hero-dot').forEach((dot, i) => { dot.classList.toggle('active', i === heroIndex); dot.setAttribute('aria-pressed', i === heroIndex ? 'true' : 'false'); });
     }
 
     document.querySelector('[data-hero-next]').addEventListener('click', () => { setHeroProduct(heroIndex + 1); resetHeroTimer(); });
@@ -1235,6 +1243,7 @@
 
     /* ── PRICE COUNTER ANIMATION ── */
     function animateCount(el) {
+      if (prefersReducedMotion) return;
       // Operate on the first text node so child elements (e.g. <small>) are preserved
       const textNode = Array.from(el.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
       const src = textNode || el;
@@ -1275,7 +1284,7 @@
           if (e.isIntersecting) {
             navLinks.forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
             const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-            if (a) { a.classList.add('active'); a.setAttribute('aria-current', 'true'); }
+            if (a) { a.classList.add('active'); a.setAttribute('aria-current', 'location'); }
           }
         });
       }, { rootMargin: '-40% 0px -55% 0px' }).observe(s);
