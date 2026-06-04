@@ -310,6 +310,8 @@
       background: rgba(232,228,200,0.08);
     }
     .hero-arrow:active { transform: scale(0.96); }
+    .hero-pause[aria-pressed="true"] { background: rgba(232,228,200,0.10); border-color: rgba(232,228,200,0.45); }
+    @media (prefers-reduced-motion: reduce) { .hero-pause { display: none; } }
 
     /* ── MARQUEE ── */
     .marquee-wrap {
@@ -892,6 +894,7 @@
             <button class="hero-dot" type="button" data-dot="1" aria-label="Rocky Keychain" aria-pressed="false"></button>
           </div>
           <div class="hero-arrows">
+            <button class="hero-arrow hero-pause" type="button" id="heroPause" aria-label="Pause slideshow" aria-pressed="false">⏸</button>
             <button class="hero-arrow" type="button" data-hero-prev aria-label="Previous product">‹</button>
             <button class="hero-arrow" type="button" data-hero-next aria-label="Next product">›</button>
           </div>
@@ -1195,23 +1198,35 @@
     });
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let heroAutoTimer = prefersReducedMotion ? null : setInterval(() => setHeroProduct(heroIndex + 1), 5000);
+    let heroAutoPaused = false;
+    let heroAutoTimer = prefersReducedMotion ? null : setInterval(() => setHeroProduct(heroIndex + 1, false), 5000);
     function resetHeroTimer() {
-      if (prefersReducedMotion) return;
+      if (prefersReducedMotion || heroAutoPaused) return;
       clearInterval(heroAutoTimer);
-      heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000);
+      heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000);
     }
     const heroWrap = document.querySelector('.hero-product-wrap');
-    heroWrap.addEventListener('mouseenter', () => { if (!prefersReducedMotion) clearInterval(heroAutoTimer); });
+    heroWrap.addEventListener('mouseenter', () => { if (!prefersReducedMotion && !heroAutoPaused) clearInterval(heroAutoTimer); });
     heroWrap.addEventListener('mouseleave', () => {
-      if (!prefersReducedMotion) { clearInterval(heroAutoTimer); heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1), 5000); }
+      if (!prefersReducedMotion && !heroAutoPaused) { clearInterval(heroAutoTimer); heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000); }
     });
 
+    const heroPauseBtn = document.getElementById('heroPause');
+    if (!prefersReducedMotion && heroPauseBtn) {
+      heroPauseBtn.addEventListener('click', () => {
+        heroAutoPaused = !heroAutoPaused;
+        heroPauseBtn.setAttribute('aria-pressed', String(heroAutoPaused));
+        heroPauseBtn.setAttribute('aria-label', heroAutoPaused ? 'Resume slideshow' : 'Pause slideshow');
+        heroPauseBtn.textContent = heroAutoPaused ? '▶' : '⏸';
+        if (heroAutoPaused) { clearInterval(heroAutoTimer); heroAutoTimer = null; }
+        else { heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000); }
+      });
+    }
+
     /* ── TOUCH SWIPE ON HERO ── */
-    const heroStage = document.querySelector('.hero-product-stage');
     let touchStartX = 0;
-    heroStage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    heroStage.addEventListener('touchend', e => {
+    heroWrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    heroWrap.addEventListener('touchend', e => {
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 40) { setHeroProduct(dx < 0 ? heroIndex + 1 : heroIndex - 1); resetHeroTimer(); }
     }, { passive: true });
