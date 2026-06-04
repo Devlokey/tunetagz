@@ -552,6 +552,8 @@
     }
     .spot-feat-text { font-size: 0.84rem; color: var(--cream); }
     .spot-feat-text span { color: var(--muted); font-size: 0.78rem; display: block; margin-top: 2px; }
+    .spot-price { font-family: 'DM Mono', monospace; font-size: 1.6rem; color: var(--cream); }
+    .spot-cta-row { display: flex; align-items: center; gap: 20px; }
 
     /* ── CTA BANNER ── */
     #cta {
@@ -1043,8 +1045,8 @@
             <div class="spot-feat-text">Ships All Over India <span>Tracked delivery in 5–7 working days</span></div>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:20px">
-          <span style="font-family:'DM Mono',monospace;font-size:1.6rem;color:var(--cream)">₹300</span>
+        <div class="spot-cta-row">
+          <span class="spot-price">₹300</span>
           <a href="https://www.instagram.com/tune.tagz/" class="btn-primary" target="_blank" rel="noopener noreferrer">Order Rocky</a>
         </div>
       </div>
@@ -1231,8 +1233,14 @@
       if (Math.abs(dx) > 40) { setHeroProduct(dx < 0 ? heroIndex + 1 : heroIndex - 1); resetHeroTimer(); }
     }, { passive: true });
 
+    /* ── KEYBOARD ARROW NAVIGATION ON HERO CAROUSEL ── */
+    heroWrap.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') { setHeroProduct(heroIndex - 1); resetHeroTimer(); e.preventDefault(); }
+      else if (e.key === 'ArrowRight') { setHeroProduct(heroIndex + 1); resetHeroTimer(); e.preventDefault(); }
+    });
+
     /* ── CARD TILT (desktop only) ── */
-    if (window.matchMedia('(hover: hover)').matches) {
+    if (window.matchMedia('(hover: hover)').matches && !prefersReducedMotion) {
       document.querySelectorAll('.pcard').forEach(card => {
         let tiltRect = null;
         let tiltPending = false;
@@ -1288,22 +1296,21 @@
         }
       });
     }, { threshold: 0.5 });
-    document.querySelectorAll('.pprice, .hero-tag-price').forEach(el => priceObserver.observe(el));
+    document.querySelectorAll('.pprice, .hero-tag-price, .spot-price').forEach(el => priceObserver.observe(el));
 
     /* ── ACTIVE NAV LINK ── */
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
-    sections.forEach(s => {
-      new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            navLinks.forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
-            const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-            if (a) { a.classList.add('active'); a.setAttribute('aria-current', 'location'); }
-          }
-        });
-      }, { rootMargin: '-40% 0px -55% 0px' }).observe(s);
-    });
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
+          const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+          if (a) { a.classList.add('active'); a.setAttribute('aria-current', 'location'); }
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => navObserver.observe(s));
 
     /* ── SCROLL REVEAL ── */
     const ro = new IntersectionObserver(entries => {
