@@ -314,6 +314,7 @@
     .marquee-track {
       display: flex; width: max-content;
       animation: marquee 24s linear infinite;
+      will-change: transform;
     }
     .marquee-item {
       font-family: 'DM Mono', monospace;
@@ -831,7 +832,7 @@
 
   <!-- NAV -->
   <nav id="nav" aria-label="Main navigation">
-    <div class="nav-logo"><img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" fetchpriority="high" /></div>
+    <div class="nav-logo"><img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" fetchpriority="high" loading="eager" width="423" height="318" /></div>
     <div class="nav-links">
       <a href="#products" class="nav-link">Shop</a>
       <a href="#why"      class="nav-link">Why Us</a>
@@ -868,8 +869,8 @@
     <div class="hero-right">
       <div class="hero-product-wrap">
         <div class="hero-product-stage">
-          <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" fetchpriority="high" />
-          <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" loading="lazy" decoding="async" aria-hidden="true" />
+          <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" fetchpriority="high" loading="eager" width="1536" height="1024" />
+          <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" loading="lazy" decoding="async" aria-hidden="true" width="1024" height="1536" />
         </div>
         <div class="hero-product-tag">
           <div class="hero-tag-dot" aria-hidden="true"></div>
@@ -915,7 +916,7 @@
         <div class="pimg-wrap">
           <span class="pbadge">Bestseller</span>
           <span class="psku">SPT-001</span>
-          <img class="pimg" src="POSTER%201.png" alt="Spotify Code Tag product poster" loading="lazy" decoding="async" />
+          <img class="pimg" src="POSTER%201.png" alt="Spotify Code Tag product poster" loading="lazy" decoding="async" width="1254" height="1254" />
         </div>
         <div class="pbody">
           <div class="pbar"></div>
@@ -923,7 +924,7 @@
           <p class="pdesc">Scan and play. Your favorite track engraved in gold on matte black — with your name on the back. The ultimate gift for any music lover.</p>
           <div class="pfooter">
             <div class="pprice">₹699 <small>/ piece</small></div>
-            <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer">Order Now</a>
+            <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer" aria-label="Order Spotify Code Tag on Instagram">Order Now</a>
           </div>
         </div>
       </div>
@@ -933,7 +934,7 @@
         <div class="pimg-wrap">
           <span class="pbadge">New</span>
           <span class="psku">RKY-001</span>
-          <img class="pimg" src="POSTER%202.png" alt="Rocky Keychain product poster" loading="lazy" decoding="async" />
+          <img class="pimg" src="POSTER%202.png" alt="Rocky Keychain product poster" loading="lazy" decoding="async" width="1254" height="1254" />
         </div>
         <div class="pbody">
           <div class="pbar"></div>
@@ -941,7 +942,7 @@
           <p class="pdesc">A wearable sculpture for your keys. Intricate maze-pattern 3D printed figure in matte black — bold, tactile, and unlike anything else on the market.</p>
           <div class="pfooter">
             <div class="pprice">₹300 <small>/ piece</small></div>
-            <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer">Order Now</a>
+            <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer" aria-label="Order Rocky Keychain on Instagram">Order Now</a>
           </div>
         </div>
       </div>
@@ -960,7 +961,7 @@
           <p class="pdesc">Something new is dropping. Follow us on Instagram to be the first to know when our third collection goes live.</p>
           <div class="pfooter">
             <div class="pprice" style="opacity:0.28">TBA</div>
-            <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer" style="opacity:0.65">Notify Me</a>
+            <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer" style="opacity:0.65" aria-label="Get notified about Drop 03 on Instagram">Notify Me</a>
           </div>
         </div>
       </div>
@@ -1010,7 +1011,7 @@
     </div>
     <div class="spot-grid" style="margin-top:64px">
       <div class="spot-img-wrap reveal">
-        <img src="PRODUCT%202.png" alt="Rocky Keychain" loading="lazy" decoding="async" />
+        <img src="PRODUCT%202.png" alt="Rocky Keychain" loading="lazy" decoding="async" width="1024" height="1536" />
       </div>
       <div class="spot-right reveal">
         <p class="spot-tag">RKY-001 — Limited Edition</p>
@@ -1053,7 +1054,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" decoding="async" />
+    <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" decoding="async" width="423" height="318" />
     <span class="footer-copy">© 2026 TuneTagZ. All rights reserved.</span>
     <div class="footer-links">
       <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="TuneTagZ on Instagram">Instagram</a>
