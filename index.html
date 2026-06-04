@@ -8,6 +8,7 @@
   <meta property="og:title" content="TuneTagZ — Wear Your Sound" />
   <meta property="og:description" content="Custom-engraved Spotify code keychains. Your favorite song, always with you." />
   <meta property="og:image" content="https://devlokey.github.io/Tune/POSTER%201.png" />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1254" />
   <meta property="og:image:height" content="1254" />
   <meta property="og:image:alt" content="TuneTagZ — Custom Engraved Spotify Code Keychain" />
@@ -17,6 +18,7 @@
   <meta name="twitter:title" content="TuneTagZ — Wear Your Sound" />
   <meta name="twitter:description" content="Custom-engraved Spotify code keychains. Your favorite song, always with you." />
   <meta name="twitter:image" content="https://devlokey.github.io/Tune/POSTER%201.png" />
+  <meta name="twitter:image:alt" content="TuneTagZ — Custom Engraved Spotify Code Keychain" />
   <meta name="twitter:url" content="https://devlokey.github.io/Tune/" />
   <link rel="canonical" href="https://devlokey.github.io/Tune/" />
   <meta name="robots" content="index, follow" />
@@ -238,6 +240,7 @@
       filter: blur(0) saturate(1);
       z-index: 3;
       animation: floatImg 6s ease-in-out infinite;
+      will-change: transform;
     }
     .hero-product-img.is-side {
       --hero-x: 18%;
@@ -880,7 +883,7 @@
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-product-wrap" role="group" aria-roledescription="carousel" aria-label="Featured products">
+      <div class="hero-product-wrap" role="region" aria-roledescription="carousel" aria-label="Featured products">
         <div class="hero-product-stage">
           <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" fetchpriority="high" loading="eager" width="1536" height="1024" />
           <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" loading="lazy" decoding="async" aria-hidden="true" width="1024" height="1536" />
@@ -1107,11 +1110,12 @@
     }
 
     /* ── NAV SCROLL ── */
+    const navEl = document.getElementById('nav');
     let scrollTicking = false;
     window.addEventListener('scroll', () => {
       if (!scrollTicking) {
         requestAnimationFrame(() => {
-          document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+          navEl.classList.toggle('scrolled', window.scrollY > 60);
           updateProgress();
           scrollTicking = false;
         });
