@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en-IN">
+<html lang="en-IN" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>TuneTagZ — Wear Your Sound</title>
-  <meta name="description" content="Custom-engraved Spotify code keychains for music lovers. Scan your favorite song, carry it everywhere. Ships across India." />
+  <meta name="description" content="Custom-engraved Spotify code keychains for music lovers. Scan your favorite song, engraved in gold. Ships across India. The perfect personalized gift." />
   <meta property="og:title" content="TuneTagZ — Wear Your Sound" />
   <meta property="og:description" content="Custom-engraved Spotify code keychains. Your favorite song, always with you." />
   <meta property="og:image" content="https://devlokey.github.io/Tune/POSTER%201.png" />
@@ -21,6 +21,8 @@
   <meta name="twitter:image:alt" content="TuneTagZ — Custom Engraved Spotify Code Keychain" />
   <meta name="twitter:url" content="https://devlokey.github.io/Tune/" />
   <link rel="canonical" href="https://devlokey.github.io/Tune/" />
+  <link rel="alternate" hreflang="en-IN" href="https://devlokey.github.io/Tune/" />
+  <link rel="alternate" hreflang="x-default" href="https://devlokey.github.io/Tune/" />
   <meta name="robots" content="index, follow" />
   <meta property="og:site_name" content="TuneTagZ" />
   <meta property="og:locale" content="en_IN" />
@@ -769,7 +771,7 @@
     /* ── FOCUS VISIBLE ── */
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
   </style>
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" /><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" /><style>.reveal{opacity:1!important;transform:none!important}.cursor,.progress-bar,.hero-controls{display:none!important}@media(hover:hover){*{cursor:auto!important}}</style></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -862,7 +864,7 @@
       <a href="#cta"      class="nav-link">Order</a>
     </div>
     <a href="https://www.instagram.com/tune.tagz/" class="nav-cta" target="_blank" rel="noopener noreferrer">Shop Now</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobileDrawer">
+    <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileDrawer">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -1138,6 +1140,7 @@
       drawer.classList.remove('open');
       hamburger.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open navigation');
       drawer.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       hamburger.focus();
@@ -1148,6 +1151,7 @@
       const open = drawer.classList.toggle('open');
       hamburger.classList.toggle('open', open);
       hamburger.setAttribute('aria-expanded', String(open));
+      hamburger.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) {
         drawer.removeAttribute('aria-hidden');
