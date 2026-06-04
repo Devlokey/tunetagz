@@ -8,12 +8,16 @@
   <meta property="og:title" content="TuneTagZ — Wear Your Sound" />
   <meta property="og:description" content="Custom-engraved Spotify code keychains. Your favorite song, always with you." />
   <meta property="og:image" content="https://devlokey.github.io/Tune/POSTER%201.png" />
+  <meta property="og:image:width" content="1254" />
+  <meta property="og:image:height" content="1254" />
+  <meta property="og:image:alt" content="TuneTagZ — Custom Engraved Spotify Code Keychain" />
   <meta property="og:url" content="https://devlokey.github.io/Tune/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="TuneTagZ — Wear Your Sound" />
   <meta name="twitter:description" content="Custom-engraved Spotify code keychains. Your favorite song, always with you." />
   <meta name="twitter:image" content="https://devlokey.github.io/Tune/POSTER%201.png" />
+  <meta name="twitter:url" content="https://devlokey.github.io/Tune/" />
   <link rel="canonical" href="https://devlokey.github.io/Tune/" />
   <meta name="robots" content="index, follow" />
   <meta property="og:site_name" content="TuneTagZ" />
@@ -26,10 +30,12 @@
   <link rel="preload" as="image" href="TUNETAGZ%20LOGO.png" fetchpriority="high" />
   <meta name="geo.region" content="IN" />
   <meta name="geo.placename" content="India" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
   <link rel="dns-prefetch" href="//www.instagram.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
   <style>
     :root {
       --bg: #0d1f13;
@@ -43,8 +49,10 @@
       --gold: #c9a84c;
       --text: #e8e4c8;
       --muted: rgba(232,228,200,0.45);
+      color-scheme: dark;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a, button { touch-action: manipulation; }
 
     html { scroll-behavior: smooth; scroll-padding-top: 80px; }
     ::-webkit-scrollbar { width: 4px; }
@@ -362,6 +370,7 @@
       border-radius: 3px;
       overflow: hidden;
       display: flex; flex-direction: column;
+      contain: layout style;
       transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.4s;
     }
     .pcard:hover {
@@ -747,7 +756,7 @@
     /* ── FOCUS VISIBLE ── */
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
   </style>
-  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" /><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -867,7 +876,7 @@
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-product-wrap">
+      <div class="hero-product-wrap" role="group" aria-roledescription="carousel" aria-label="Featured products">
         <div class="hero-product-stage">
           <img class="hero-product-img is-active" src="PRODUCT%201.png" alt="Spotify Code Tag" data-name="Spotify Code Tag" data-price="₹699" fetchpriority="high" loading="eager" width="1536" height="1024" />
           <img class="hero-product-img is-side" src="PRODUCT%202.png" alt="Rocky Keychain" data-name="Rocky Keychain" data-price="₹300" loading="lazy" decoding="async" aria-hidden="true" width="1024" height="1536" />
@@ -1081,13 +1090,20 @@
     const progressBar = document.getElementById('progressBar');
     function updateProgress() {
       const total = document.documentElement.scrollHeight - window.innerHeight;
-      progressBar.style.width = (window.scrollY / total * 100) + '%';
+      progressBar.style.width = (total > 0 ? window.scrollY / total * 100 : 0) + '%';
     }
 
     /* ── NAV SCROLL ── */
+    let scrollTicking = false;
     window.addEventListener('scroll', () => {
-      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-      updateProgress();
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+          updateProgress();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
     }, { passive: true });
 
     /* ── HAMBURGER / DRAWER ── */
@@ -1195,14 +1211,24 @@
     /* ── CARD TILT (desktop only) ── */
     if (window.matchMedia('(hover: hover)').matches) {
       document.querySelectorAll('.pcard').forEach(card => {
+        let tiltRect = null;
+        let tiltPending = false;
+        card.addEventListener('mouseenter', () => { tiltRect = card.getBoundingClientRect(); });
         card.addEventListener('mousemove', e => {
-          const r = card.getBoundingClientRect();
-          const x = (e.clientX - r.left) / r.width - 0.5;
-          const y = (e.clientY - r.top) / r.height - 0.5;
-          card.style.transform = `translateY(-8px) perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 6}deg)`;
+          if (tiltPending || !tiltRect) return;
+          tiltPending = true;
+          const ex = e.clientX, ey = e.clientY;
+          requestAnimationFrame(() => {
+            const x = (ex - tiltRect.left) / tiltRect.width - 0.5;
+            const y = (ey - tiltRect.top) / tiltRect.height - 0.5;
+            card.style.transform = `translateY(-8px) perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 6}deg)`;
+            tiltPending = false;
+          });
         });
         card.addEventListener('mouseleave', () => {
           card.style.transform = '';
+          tiltRect = null;
+          tiltPending = false;
         });
       });
     }
@@ -1247,9 +1273,9 @@
       new IntersectionObserver(entries => {
         entries.forEach(e => {
           if (e.isIntersecting) {
-            navLinks.forEach(l => l.classList.remove('active'));
+            navLinks.forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
             const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-            if (a) a.classList.add('active');
+            if (a) { a.classList.add('active'); a.setAttribute('aria-current', 'true'); }
           }
         });
       }, { rootMargin: '-40% 0px -55% 0px' }).observe(s);
