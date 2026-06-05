@@ -29,6 +29,9 @@
   <meta name="theme-color" content="#0d1f13" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='18' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='90' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TuneTagZ" />
   <link rel="manifest" href="manifest.json" />
   <link rel="sitemap" type="application/xml" href="sitemap.xml" />
   <link rel="preload" as="image" href="PRODUCT%201.png" fetchpriority="high" />
@@ -40,6 +43,7 @@
   <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
   <meta name="keywords" content="Spotify code keychain, custom engraved keychain, music gift India, personalized keychain, Spotify gift, song keychain, TuneTagZ" />
   <meta name="application-name" content="TuneTagZ" />
+  <meta name="author" content="TuneTagZ" />
   <link rel="dns-prefetch" href="//www.instagram.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,6 +76,7 @@
       color: var(--text);
       font-family: 'Space Grotesk', sans-serif;
       overflow-x: hidden;
+      overscroll-behavior-x: none;
     }
 
     /* CURSOR */
@@ -671,6 +676,7 @@
       gap: 36px;
       transform: translateY(-100%);
       transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+      overscroll-behavior: contain;
     }
     .mobile-drawer.open { transform: translateY(0); }
     .mobile-drawer .d-link {
@@ -781,6 +787,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": "https://devlokey.github.io/Tune/#organization",
     "name": "TuneTagZ",
     "url": "https://devlokey.github.io/Tune/",
     "logo": "https://devlokey.github.io/Tune/TUNETAGZ%20LOGO.png",
@@ -797,6 +804,18 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://devlokey.github.io/Tune/#website",
+    "name": "TuneTagZ",
+    "url": "https://devlokey.github.io/Tune/",
+    "description": "Custom-engraved Spotify code keychains for music lovers. Your favorite song, always with you.",
+    "publisher": { "@id": "https://devlokey.github.io/Tune/#organization" },
+    "inLanguage": "en-IN"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "TuneTagZ Products",
     "url": "https://devlokey.github.io/Tune/",
@@ -806,9 +825,17 @@
         "position": 1,
         "item": {
           "@type": "Product",
+          "@id": "https://devlokey.github.io/Tune/#product-spt001",
           "name": "Spotify Code Tag",
           "sku": "SPT-001",
-          "image": "https://devlokey.github.io/Tune/POSTER%201.png",
+          "mpn": "SPT-001",
+          "color": "Matte Black with Gold Engraving",
+          "material": "Metal, Laser Engraving",
+          "countryOfAssembly": "IN",
+          "image": [
+            "https://devlokey.github.io/Tune/PRODUCT%201.png",
+            "https://devlokey.github.io/Tune/POSTER%201.png"
+          ],
           "description": "Custom-engraved Spotify code keychain. Scan your favorite track, engraved in gold on matte black with your name on the back.",
           "brand": { "@type": "Brand", "name": "TuneTagZ" },
           "offers": {
@@ -816,7 +843,9 @@
             "price": "699",
             "priceCurrency": "INR",
             "availability": "https://schema.org/InStock",
-            "url": "https://www.instagram.com/tune.tagz/"
+            "itemCondition": "https://schema.org/NewCondition",
+            "url": "https://www.instagram.com/tune.tagz/",
+            "seller": { "@id": "https://devlokey.github.io/Tune/#organization" }
           }
         }
       },
@@ -825,9 +854,17 @@
         "position": 2,
         "item": {
           "@type": "Product",
+          "@id": "https://devlokey.github.io/Tune/#product-rky001",
           "name": "Rocky Keychain",
           "sku": "RKY-001",
-          "image": "https://devlokey.github.io/Tune/POSTER%202.png",
+          "mpn": "RKY-001",
+          "color": "Matte Black with Silver Hardware",
+          "material": "3D-Printed Resin, Steel Hardware",
+          "countryOfAssembly": "IN",
+          "image": [
+            "https://devlokey.github.io/Tune/PRODUCT%202.png",
+            "https://devlokey.github.io/Tune/POSTER%202.png"
+          ],
           "description": "3D-printed figure keychain with intricate topographic maze pattern. Matte black with silver hardware.",
           "brand": { "@type": "Brand", "name": "TuneTagZ" },
           "offers": {
@@ -835,7 +872,9 @@
             "price": "300",
             "priceCurrency": "INR",
             "availability": "https://schema.org/InStock",
-            "url": "https://www.instagram.com/tune.tagz/"
+            "itemCondition": "https://schema.org/NewCondition",
+            "url": "https://www.instagram.com/tune.tagz/",
+            "seller": { "@id": "https://devlokey.github.io/Tune/#organization" }
           }
         }
       }
@@ -942,7 +981,7 @@
     <div class="products-grid">
 
       <!-- Product 1 -->
-      <div class="pcard reveal">
+      <article class="pcard reveal">
         <div class="pimg-wrap">
           <span class="pbadge">Bestseller</span>
           <span class="psku">SPT-001</span>
@@ -957,10 +996,10 @@
             <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer" aria-label="Order Spotify Code Tag on Instagram">Order Now</a>
           </div>
         </div>
-      </div>
+      </article>
 
       <!-- Product 2 -->
-      <div class="pcard reveal">
+      <article class="pcard reveal">
         <div class="pimg-wrap">
           <span class="pbadge">New</span>
           <span class="psku">RKY-001</span>
@@ -975,10 +1014,10 @@
             <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer" aria-label="Order Rocky Keychain on Instagram">Order Now</a>
           </div>
         </div>
-      </div>
+      </article>
 
       <!-- Product 3 — coming soon -->
-      <div class="pcard soon reveal">
+      <article class="pcard soon reveal">
         <div class="pimg-wrap">
           <div class="soon-inner">
             <div class="soon-label">Coming<br/>Soon</div>
@@ -994,7 +1033,7 @@
             <a href="https://www.instagram.com/tune.tagz/" class="pbtn" target="_blank" rel="noopener noreferrer" style="opacity:0.65" aria-label="Get notified about Drop 03 on Instagram">Notify Me</a>
           </div>
         </div>
-      </div>
+      </article>
 
     </div>
   </section>
