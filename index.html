@@ -759,6 +759,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
       .marquee-track { animation: none; }
       .hero-tag-dot { animation: none; opacity: 1; }
@@ -876,6 +877,54 @@
             "url": "https://www.instagram.com/tune.tagz/",
             "seller": { "@id": "https://devlokey.github.io/Tune/#organization" }
           }
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I order a custom TuneTagZ keychain?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DM us on Instagram @tune.tagz with your Spotify song link and name. We confirm your order and ship within 5–7 working days across India."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the Spotify code keychain work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Open the Spotify app, tap the camera icon, and scan the engraved code on your keychain. It instantly plays the song it was made with."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does a TuneTagZ keychain cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Spotify Code Tag is ₹699 per piece. The Rocky Keychain is ₹300 per piece. Both ship across India with tracked delivery."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does shipping take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer tracked shipping across India with delivery in 5–7 working days from order confirmation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I customize the name on the keychain?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — the Spotify Code Tag is fully personalized with your chosen song and your name engraved on the back. Just send us your Spotify link and name when ordering."
         }
       }
     ]
@@ -1282,6 +1331,15 @@
         else { heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000); }
       });
     }
+
+    /* ── PAUSE CAROUSEL WHEN TAB IS HIDDEN ── */
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearInterval(heroAutoTimer);
+      } else if (!prefersReducedMotion && !heroAutoPaused) {
+        heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000);
+      }
+    });
 
     /* ── TOUCH SWIPE ON HERO ── */
     let touchStartX = 0;
