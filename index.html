@@ -46,6 +46,7 @@
   <meta name="keywords" content="Spotify code keychain, custom engraved keychain, music gift India, personalized keychain, Spotify gift, song keychain, TuneTagZ" />
   <meta name="application-name" content="TuneTagZ" />
   <meta name="author" content="TuneTagZ" />
+  <link rel="me" href="https://www.instagram.com/tune.tagz/" />
   <link rel="preconnect" href="https://www.instagram.com" />
   <link rel="dns-prefetch" href="//www.instagram.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1176,7 +1177,7 @@
   <!-- FOOTER -->
   <footer>
     <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" decoding="async" width="423" height="318" />
-    <span class="footer-copy">© 2026 TuneTagZ. All rights reserved.</span>
+    <span class="footer-copy">© <time datetime="2026">2026</time> TuneTagZ. All rights reserved.</span>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="TuneTagZ on Instagram">Instagram</a>
       <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="Contact us on Instagram">Contact</a>
@@ -1311,15 +1312,20 @@
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let heroAutoPaused = false;
+    let heroHovered = false;
     let heroAutoTimer = prefersReducedMotion ? null : setInterval(() => setHeroProduct(heroIndex + 1, false), 5000);
     function resetHeroTimer() {
-      if (prefersReducedMotion || heroAutoPaused) return;
+      if (prefersReducedMotion || heroAutoPaused || heroHovered) return;
       clearInterval(heroAutoTimer);
       heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000);
     }
     const heroWrap = document.querySelector('.hero-product-wrap');
-    heroWrap.addEventListener('mouseenter', () => { if (!prefersReducedMotion && !heroAutoPaused) clearInterval(heroAutoTimer); });
+    heroWrap.addEventListener('mouseenter', () => {
+      heroHovered = true;
+      if (!prefersReducedMotion && !heroAutoPaused) clearInterval(heroAutoTimer);
+    });
     heroWrap.addEventListener('mouseleave', () => {
+      heroHovered = false;
       if (!prefersReducedMotion && !heroAutoPaused) { clearInterval(heroAutoTimer); heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000); }
     });
 
@@ -1331,7 +1337,7 @@
         heroPauseBtn.setAttribute('aria-label', heroAutoPaused ? 'Resume slideshow' : 'Pause slideshow');
         heroPauseBtn.textContent = heroAutoPaused ? '▶' : '⏸';
         if (heroAutoPaused) { clearInterval(heroAutoTimer); heroAutoTimer = null; }
-        else { heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000); }
+        else if (!heroHovered) { heroAutoTimer = setInterval(() => setHeroProduct(heroIndex + 1, false), 5000); }
       });
     }
 
