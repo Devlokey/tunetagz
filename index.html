@@ -270,13 +270,6 @@
       --hero-scale: 0.48;
       transform: translate(var(--hero-x), var(--hero-y)) scale(var(--hero-scale));
     }
-    .hero-product-img.is-active + .hero-product-img.is-side {
-      --hero-x: -112%;
-      --hero-y: -42%;
-      --hero-scale: 0.48;
-      transform: translate(var(--hero-x), var(--hero-y)) scale(var(--hero-scale));
-      opacity: 0.08;
-    }
     @keyframes floatImg {
       0%, 100% { transform: translate(var(--hero-x), var(--hero-y)) scale(var(--hero-scale)); }
       50% { transform: translate(var(--hero-x), calc(var(--hero-y) - 14px)) scale(var(--hero-scale)); }
