@@ -904,7 +904,18 @@
             "availability": "https://schema.org/InStock",
             "itemCondition": "https://schema.org/NewCondition",
             "url": "https://www.instagram.com/tune.tagz/",
-            "seller": { "@id": "https://devlokey.github.io/Tune/#organization" }
+            "areaServed": "IN",
+            "seller": { "@id": "https://devlokey.github.io/Tune/#organization" },
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "INR" },
+              "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "IN" },
+              "deliveryTime": {
+                "@type": "ShippingDeliveryTime",
+                "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY" },
+                "transitTime": { "@type": "QuantitativeValue", "minValue": 4, "maxValue": 6, "unitCode": "DAY" }
+              }
+            }
           }
         }
       },
@@ -934,7 +945,18 @@
             "availability": "https://schema.org/InStock",
             "itemCondition": "https://schema.org/NewCondition",
             "url": "https://www.instagram.com/tune.tagz/",
-            "seller": { "@id": "https://devlokey.github.io/Tune/#organization" }
+            "areaServed": "IN",
+            "seller": { "@id": "https://devlokey.github.io/Tune/#organization" },
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "INR" },
+              "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "IN" },
+              "deliveryTime": {
+                "@type": "ShippingDeliveryTime",
+                "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY" },
+                "transitTime": { "@type": "QuantitativeValue", "minValue": 4, "maxValue": 6, "unitCode": "DAY" }
+              }
+            }
           }
         }
       }
@@ -1164,20 +1186,20 @@
       </div>
       <div class="feats">
         <div class="feat reveal">
-          <div class="feat-title">Scannable</div>
-          <div class="feat-desc">Every Spotify Code keychain scans directly from the Spotify app. No extra steps.</div>
+          <h3 class="feat-title">Scannable</h3>
+          <p class="feat-desc">Every Spotify Code keychain scans directly from the Spotify app. No extra steps.</p>
         </div>
         <div class="feat reveal">
-          <div class="feat-title">Premium Finish</div>
-          <div class="feat-desc">Matte black body with precision gold engraving. Built to last, built to impress.</div>
+          <h3 class="feat-title">Premium Finish</h3>
+          <p class="feat-desc">Matte black body with precision gold engraving. Built to last, built to impress.</p>
         </div>
         <div class="feat reveal">
-          <div class="feat-title">Perfect Gift</div>
-          <div class="feat-desc">Birthdays, anniversaries, friendships — no better way to say "this song is ours."</div>
+          <h3 class="feat-title">Perfect Gift</h3>
+          <p class="feat-desc">Birthdays, anniversaries, friendships — no better way to say "this song is ours."</p>
         </div>
         <div class="feat reveal">
-          <div class="feat-title">Fast Delivery</div>
-          <div class="feat-desc">Order today, receive in 5–7 days. Tracked shipping across India.</div>
+          <h3 class="feat-title">Fast Delivery</h3>
+          <p class="feat-desc">Order today, receive in 5–7 days. Tracked shipping across India.</p>
         </div>
       </div>
     </div>
