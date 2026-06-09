@@ -900,6 +900,7 @@
             "@type": "Offer",
             "price": "699",
             "priceCurrency": "INR",
+            "priceValidUntil": "2027-06-09",
             "availability": "https://schema.org/InStock",
             "itemCondition": "https://schema.org/NewCondition",
             "url": "https://www.instagram.com/tune.tagz/",
@@ -929,6 +930,7 @@
             "@type": "Offer",
             "price": "300",
             "priceCurrency": "INR",
+            "priceValidUntil": "2027-06-09",
             "availability": "https://schema.org/InStock",
             "itemCondition": "https://schema.org/NewCondition",
             "url": "https://www.instagram.com/tune.tagz/",
@@ -1320,7 +1322,7 @@
     const drawer = document.getElementById('mobileDrawer');
     const mainContent = document.getElementById('main-content');
 
-    function closeDrawer() {
+    function closeDrawer(returnFocus = true) {
       drawer.classList.remove('open');
       hamburger.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
@@ -1328,7 +1330,7 @@
       drawer.setAttribute('aria-hidden', 'true');
       drawer.setAttribute('inert', '');
       document.body.style.overflow = '';
-      hamburger.focus();
+      if (returnFocus) hamburger.focus();
       if (mainContent) { mainContent.removeAttribute('aria-hidden'); mainContent.removeAttribute('inert'); }
     }
 
@@ -1363,7 +1365,23 @@
       }
     });
     document.querySelectorAll('[data-drawer-close]').forEach(el => {
-      el.addEventListener('click', closeDrawer);
+      el.addEventListener('click', () => {
+        const href = el.getAttribute('href') || '';
+        if (href.startsWith('#')) {
+          closeDrawer(false);
+          const section = document.querySelector(href);
+          const heading = section && section.querySelector('h1[id],h2[id],h3[id]');
+          if (heading) {
+            setTimeout(() => {
+              heading.tabIndex = -1;
+              heading.focus({ preventScroll: true });
+              heading.addEventListener('blur', () => heading.removeAttribute('tabindex'), { once: true });
+            }, 80);
+          }
+        } else {
+          closeDrawer();
+        }
+      });
     });
     drawer.addEventListener('click', e => { if (e.target === drawer) closeDrawer(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer(); });
