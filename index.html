@@ -618,7 +618,9 @@
       display: flex; align-items: center; justify-content: space-between;
       background: var(--bg2);
     }
-    footer img { height: 28px; width: auto; opacity: 0.6; }
+    .footer-logo { line-height: 0; }
+    .footer-logo img { height: 28px; width: auto; opacity: 0.6; transition: opacity 0.2s; }
+    .footer-logo:hover img { opacity: 1; }
     .footer-copy {
       font-family: 'DM Mono', monospace;
       font-size: 0.66rem; color: var(--muted);
@@ -913,7 +915,7 @@
               "deliveryTime": {
                 "@type": "ShippingDeliveryTime",
                 "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY" },
-                "transitTime": { "@type": "QuantitativeValue", "minValue": 4, "maxValue": 6, "unitCode": "DAY" }
+                "transitTime": { "@type": "QuantitativeValue", "minValue": 4, "maxValue": 5, "unitCode": "DAY" }
               }
             }
           }
@@ -954,7 +956,7 @@
               "deliveryTime": {
                 "@type": "ShippingDeliveryTime",
                 "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY" },
-                "transitTime": { "@type": "QuantitativeValue", "minValue": 4, "maxValue": 6, "unitCode": "DAY" }
+                "transitTime": { "@type": "QuantitativeValue", "minValue": 4, "maxValue": 5, "unitCode": "DAY" }
               }
             }
           }
@@ -1212,7 +1214,7 @@
       <p class="s-eyebrow reveal">Featured Drop</p>
       <h2 id="spotlight-heading" class="s-title reveal">Spotlight</h2>
     </div>
-    <div class="spot-grid" style="margin-top:64px">
+    <div class="spot-grid">
       <div class="spot-img-wrap reveal">
         <img src="PRODUCT%202.png" alt="Rocky Keychain" loading="lazy" decoding="async" width="1024" height="1536" />
       </div>
@@ -1287,7 +1289,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" decoding="async" width="423" height="318" />
+    <a href="#hero" class="footer-logo"><img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" loading="lazy" decoding="async" width="423" height="318" /></a>
     <span class="footer-copy">© <time datetime="2026">2026</time> TuneTagZ. All rights reserved.</span>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="https://www.instagram.com/tune.tagz/" class="flink" target="_blank" rel="noopener noreferrer" aria-label="TuneTagZ on Instagram">Instagram</a>
