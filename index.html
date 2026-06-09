@@ -998,7 +998,7 @@
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- MOBILE DRAWER -->
-  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
     <a href="#products" class="d-link" data-drawer-close>Shop</a>
     <a href="#why"      class="d-link" data-drawer-close>Why Us</a>
     <a href="#spotlight" class="d-link" data-drawer-close>Rocky</a>
@@ -1225,23 +1225,23 @@
       <h2 id="faq-heading" class="s-title reveal">FAQ</h2>
     </div>
     <div class="faq-list">
-      <details class="faq-item reveal">
+      <details class="faq-item reveal" name="faq">
         <summary class="faq-q">How do I order a custom TuneTagZ keychain? <span class="faq-q-icon" aria-hidden="true">+</span></summary>
         <p class="faq-a">DM us on Instagram @tune.tagz with your Spotify song link and name. We confirm your order and ship within 5–7 working days across India.</p>
       </details>
-      <details class="faq-item reveal">
+      <details class="faq-item reveal" name="faq">
         <summary class="faq-q">How does the Spotify code keychain work? <span class="faq-q-icon" aria-hidden="true">+</span></summary>
         <p class="faq-a">Open the Spotify app, tap the camera icon, and scan the engraved code on your keychain. It instantly plays the song it was made with.</p>
       </details>
-      <details class="faq-item reveal">
+      <details class="faq-item reveal" name="faq">
         <summary class="faq-q">How much does a TuneTagZ keychain cost? <span class="faq-q-icon" aria-hidden="true">+</span></summary>
         <p class="faq-a">The Spotify Code Tag is ₹699 per piece. The Rocky Keychain is ₹300 per piece. Both ship across India with tracked delivery.</p>
       </details>
-      <details class="faq-item reveal">
+      <details class="faq-item reveal" name="faq">
         <summary class="faq-q">How long does shipping take? <span class="faq-q-icon" aria-hidden="true">+</span></summary>
         <p class="faq-a">We offer tracked shipping across India with delivery in 5–7 working days from order confirmation.</p>
       </details>
-      <details class="faq-item reveal">
+      <details class="faq-item reveal" name="faq">
         <summary class="faq-q">Can I customize the name on the keychain? <span class="faq-q-icon" aria-hidden="true">+</span></summary>
         <p class="faq-a">Yes — the Spotify Code Tag is fully personalized with your chosen song and your name engraved on the back. Just send us your Spotify link and name when ordering.</p>
       </details>
@@ -1326,6 +1326,7 @@
       hamburger.setAttribute('aria-expanded', 'false');
       hamburger.setAttribute('aria-label', 'Open navigation');
       drawer.setAttribute('aria-hidden', 'true');
+      drawer.setAttribute('inert', '');
       document.body.style.overflow = '';
       hamburger.focus();
       if (mainContent) { mainContent.removeAttribute('aria-hidden'); mainContent.removeAttribute('inert'); }
@@ -1339,11 +1340,13 @@
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) {
         drawer.removeAttribute('aria-hidden');
+        drawer.removeAttribute('inert');
         if (mainContent) { mainContent.setAttribute('aria-hidden', 'true'); mainContent.setAttribute('inert', ''); }
         const firstFocusable = drawer.querySelector('a, button');
         if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
       } else {
         drawer.setAttribute('aria-hidden', 'true');
+        drawer.setAttribute('inert', '');
         if (mainContent) { mainContent.removeAttribute('aria-hidden'); mainContent.removeAttribute('inert'); }
       }
     });
