@@ -841,6 +841,7 @@
 
     /* ── FOCUS VISIBLE ── */
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+    main:focus { outline: none; }
   </style>
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" /><style>.reveal{opacity:1!important;transform:none!important}.cursor,.progress-bar,.hero-controls{display:none!important}.hero-product-img.is-side{display:none!important}@media(hover:hover){*{cursor:auto!important}}</style></noscript>
   <script type="application/ld+json">
@@ -1449,7 +1450,7 @@
       const price = heroProducts[heroIndex].dataset.price;
       heroLabel.textContent = name;
       heroPrice.textContent = price;
-      if (announce) heroAnnounce.textContent = `${name}, ${price}`;
+      if (announce) heroAnnounce.textContent = `${name}, item ${heroIndex + 1} of ${heroProducts.length}, ${price}`;
       const prevIdx = (heroIndex - 1 + heroProducts.length) % heroProducts.length;
       const nextIdx = (heroIndex + 1) % heroProducts.length;
       document.querySelector('[data-hero-prev]').setAttribute('aria-label', `Previous: ${heroProducts[prevIdx].dataset.name}`);
@@ -1516,6 +1517,8 @@
     heroWrap.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft') { setHeroProduct(heroIndex - 1); resetHeroTimer(); e.preventDefault(); }
       else if (e.key === 'ArrowRight') { setHeroProduct(heroIndex + 1); resetHeroTimer(); e.preventDefault(); }
+      else if (e.key === 'Home') { setHeroProduct(0); resetHeroTimer(); e.preventDefault(); }
+      else if (e.key === 'End') { setHeroProduct(heroProducts.length - 1); resetHeroTimer(); e.preventDefault(); }
     });
 
     /* ── CARD TILT (desktop only) ── */
