@@ -1336,7 +1336,7 @@
           });
         }
       }, { passive: true });
-      document.querySelectorAll('a, button, .pcard, .feat').forEach(el => {
+      document.querySelectorAll('a, button, summary, .pcard, .feat').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
       });
