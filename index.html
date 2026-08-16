@@ -91,22 +91,7 @@
       overscroll-behavior-x: none;
     }
 
-    /* CURSOR */
-    @media (hover: hover) {
-      * { cursor: none !important; }
-      .cursor {
-        position: fixed; top: 0; left: 0;
-        width: 10px; height: 10px;
-        background: var(--cream);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 99999;
-        transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
-        transform: translate(-50%, -50%);
-        mix-blend-mode: difference;
-      }
-      .cursor.hover { width: 40px; height: 40px; opacity: 0.45; }
-    }
+
 
     /* ── NAV ── */
     #nav {
@@ -761,7 +746,6 @@
 
       footer { flex-direction: column; gap: 20px; text-align: center; }
       .footer-links { flex-wrap: wrap; justify-content: center; }
-      .cursor { display: none !important; }
 
       body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
     }
@@ -843,7 +827,7 @@
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
     main:focus { outline: none; }
   </style>
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" /><style>.reveal{opacity:1!important;transform:none!important}.cursor,.progress-bar,.hero-controls{display:none!important}.hero-product-img.is-side{display:none!important}@media(hover:hover){*{cursor:auto!important}}</style></noscript>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" /><style>.reveal{opacity:1!important;transform:none!important}.progress-bar,.hero-controls{display:none!important}.hero-product-img.is-side{display:none!important}@media(hover:hover){*{cursor:auto!important}}</style></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -1043,7 +1027,6 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- MOBILE DRAWER -->
   <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true" inert>
@@ -1321,26 +1304,6 @@
   </footer>
 
   <script>
-    /* ── CURSOR ── */
-    const cursor = document.getElementById('cursor');
-    if (window.matchMedia('(hover: hover)').matches) {
-      let _cx = 0, _cy = 0, _cp = false;
-      document.addEventListener('mousemove', e => {
-        _cx = e.clientX; _cy = e.clientY;
-        if (!_cp) {
-          _cp = true;
-          requestAnimationFrame(() => {
-            cursor.style.left = _cx + 'px';
-            cursor.style.top = _cy + 'px';
-            _cp = false;
-          });
-        }
-      }, { passive: true });
-      document.querySelectorAll('a, button, summary, .pcard, .feat').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-      });
-    }
 
     /* ── SCROLL PROGRESS BAR ── */
     const progressBar = document.getElementById('progressBar');

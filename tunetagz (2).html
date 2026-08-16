@@ -42,22 +42,7 @@
       overflow-x: hidden;
     }
 
-    /* CURSOR */
-    @media (hover: hover) {
-      * { cursor: none !important; }
-      .cursor {
-        position: fixed; top: 0; left: 0;
-        width: 10px; height: 10px;
-        background: var(--cream);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 99999;
-        transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
-        transform: translate(-50%, -50%);
-        mix-blend-mode: difference;
-      }
-      .cursor.hover { width: 40px; height: 40px; opacity: 0.45; }
-    }
+
 
     /* ── NAV ── */
     #nav {
@@ -690,7 +675,6 @@
 
       footer { flex-direction: column; gap: 20px; text-align: center; }
       .footer-links { flex-wrap: wrap; justify-content: center; }
-      .cursor { display: none !important; }
 
       body { padding-bottom: 70px; }
     }
@@ -703,7 +687,6 @@
 <body>
 
   <div class="progress-bar" id="progressBar"></div>
-  <div class="cursor" id="cursor"></div>
 
   <!-- MOBILE DRAWER -->
   <div class="mobile-drawer" id="mobileDrawer">
@@ -937,19 +920,6 @@
   </footer>
 
   <script>
-    /* ── CURSOR ── */
-    const cursor = document.getElementById('cursor');
-    if (window.matchMedia('(hover: hover)').matches) {
-      document.addEventListener('mousemove', e => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-      });
-      document.querySelectorAll('a, button, .pcard, .feat').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-      });
-    }
-
     /* ── SCROLL PROGRESS BAR ── */
     const progressBar = document.getElementById('progressBar');
     function updateProgress() {
