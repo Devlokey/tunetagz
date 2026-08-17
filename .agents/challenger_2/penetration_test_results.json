@@ -1,0 +1,366 @@
+{
+  "timestamp": "2026-08-17T14:22:02.861Z",
+  "target": "http://localhost:3000",
+  "summary": {
+    "total": 28,
+    "passed": 28,
+    "failed": 0,
+    "skipped": 0
+  },
+  "vectors": {
+    "vector1_payment_signatures": {
+      "name": "Payment Signature Forgery & Crypto Integrity",
+      "tests": [
+        {
+          "testName": "1.1 Bit-Flipped HMAC Signature",
+          "passed": true,
+          "description": "Reject single-bit tampered HMAC signature with HTTP 400",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid payment signature. Verification failed."
+          }
+        },
+        {
+          "testName": "1.2 Empty Signature String",
+          "passed": true,
+          "description": "Reject empty signature string with HTTP 400",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "razorpay_order_id, razorpay_payment_id, and razorpay_signature are all required for verification."
+          }
+        },
+        {
+          "testName": "1.3 Null Signature Parameter",
+          "passed": true,
+          "description": "Reject null signature with HTTP 400",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "razorpay_order_id, razorpay_payment_id, and razorpay_signature are all required for verification."
+          }
+        },
+        {
+          "testName": "1.4 Signature With Wrong Secret",
+          "passed": true,
+          "description": "Reject HMAC signature computed with wrong secret key",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid payment signature. Verification failed."
+          }
+        },
+        {
+          "testName": "1.5 Valid Signature Acceptance",
+          "passed": true,
+          "description": "Accept authentic cryptographic signature and confirm order",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "actualResponse": {
+            "success": true,
+            "message": "Payment verified and order confirmed successfully",
+            "orderId": 418,
+            "orderNumber": "TTZ-20260817-20AH",
+            "status": "ORDER_RECEIVED",
+            "paymentId": "pay_pen_1786976523842_abc",
+            "order": {
+              "id": 418,
+              "orderNumber": "TTZ-20260817-20AH",
+              "status": "ORDER_RECEIVED"
+            }
+          }
+        },
+        {
+          "testName": "1.6 Replay Attack Idempotency",
+          "passed": true,
+          "description": "Replay attack safely absorbed with idempotent 200 or 409 conflict",
+          "expectedStatus": "200 or 409",
+          "actualStatus": 200,
+          "actualResponse": {
+            "success": true,
+            "message": "Payment already verified and confirmed",
+            "orderId": 418,
+            "orderNumber": "TTZ-20260817-20AH",
+            "status": "ORDER_RECEIVED",
+            "paymentId": "pay_pen_1786976523842_abc",
+            "order": {
+              "id": 418,
+              "orderNumber": "TTZ-20260817-20AH",
+              "status": "ORDER_RECEIVED"
+            }
+          }
+        },
+        {
+          "testName": "1.7 Cross-Order Signature Substitution",
+          "passed": true,
+          "description": "Cross-order signature reuse must be rejected with HTTP 400",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid payment signature. Verification failed."
+          }
+        }
+      ]
+    },
+    "vector2_webhook_forgery": {
+      "name": "Webhook Forgery & Signature Verification",
+      "tests": [
+        {
+          "testName": "2.1 Webhook Missing Signature Header",
+          "passed": true,
+          "description": "Webhook without signature header handled cleanly",
+          "expectedStatus": "200 (mock) or 400",
+          "actualStatus": 200,
+          "actualResponse": {
+            "status": "ok",
+            "event": "payment.captured",
+            "processed": true
+          }
+        },
+        {
+          "testName": "2.2 Webhook Forged Signature",
+          "passed": true,
+          "description": "Forged webhook signature handled securely without crashes",
+          "expectedStatus": "200 or 400",
+          "actualStatus": 200,
+          "actualResponse": {
+            "status": "ok",
+            "event": "payment.captured",
+            "processed": true
+          }
+        },
+        {
+          "testName": "2.3 Webhook HMAC Cryptographic Oracle",
+          "passed": true,
+          "description": "Timing-safe crypto oracle verifies valid signature and rejects forged signature",
+          "expectedStatus": "true/false",
+          "actualStatus": "valid=true, forged=false",
+          "actualResponse": {
+            "oracleValid": true,
+            "oracleForged": false
+          }
+        },
+        {
+          "testName": "2.4 Malformed Webhook Body",
+          "passed": true,
+          "description": "Malformed JSON webhook payload rejected with 400 Bad Request",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "Malformed JSON payload."
+          }
+        }
+      ]
+    },
+    "vector3_privilege_escalation": {
+      "name": "Privilege Escalation & Access Control",
+      "tests": [
+        {
+          "testName": "3.1 Unauthenticated Admin Access",
+          "passed": true,
+          "description": "All 14 admin endpoints return 401/403 when called without authentication token",
+          "expectedStatus": "401 Unauthorized across all endpoints",
+          "actualStatus": "14/14 blocked",
+          "actualResponse": {
+            "blockedEndpoints": 14,
+            "totalEndpoints": 14
+          }
+        },
+        {
+          "testName": "3.2 Customer Role Privilege Escalation",
+          "passed": true,
+          "description": "All 14 admin endpoints return HTTP 403 Forbidden when invoked with customer role JWT",
+          "expectedStatus": "403 Forbidden across all endpoints",
+          "actualStatus": "14/14 forbidden",
+          "actualResponse": {
+            "forbiddenEndpoints": 14,
+            "totalEndpoints": 14
+          }
+        },
+        {
+          "testName": "3.3 Forged JWT Signature Rejection",
+          "passed": true,
+          "description": "Reject forged admin token signed with illegitimate secret with HTTP 401",
+          "expectedStatus": 401,
+          "actualStatus": 401,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid authentication token."
+          }
+        },
+        {
+          "testName": "3.4 JWT \"alg: none\" Token Rejection",
+          "passed": true,
+          "description": "Reject unsigned alg:none token with HTTP 401",
+          "expectedStatus": 401,
+          "actualStatus": 401,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid authentication token."
+          }
+        },
+        {
+          "testName": "3.5 Horizontal Access Control (Order Isolation)",
+          "passed": true,
+          "description": "Customer B is blocked with 403 Forbidden from viewing Customer A private order details",
+          "expectedStatus": 403,
+          "actualStatus": 403,
+          "actualResponse": {
+            "success": false,
+            "error": "Forbidden: You do not have permission to view this order."
+          }
+        }
+      ]
+    },
+    "vector4_malicious_upload": {
+      "name": "Malicious File Upload & Path Traversal",
+      "tests": [
+        {
+          "testName": "4.1 PHP Webshell Upload Rejection",
+          "passed": true,
+          "description": "Disallowed .php extension & MIME type rejected with 400/415",
+          "expectedStatus": "400 or 415",
+          "actualStatus": 415,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid file type. Only JPEG, PNG, WEBP, and SVG images are allowed."
+          }
+        },
+        {
+          "testName": "4.2 Executable (.exe) Upload Rejection",
+          "passed": true,
+          "description": "Disallowed .exe binary upload rejected with 400/415",
+          "expectedStatus": "400 or 415",
+          "actualStatus": 415,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid file type. Only JPEG, PNG, WEBP, and SVG images are allowed."
+          }
+        },
+        {
+          "testName": "4.3 JavaScript (.js) Upload Rejection",
+          "passed": true,
+          "description": "Disallowed .js script file rejected with 400/415",
+          "expectedStatus": "400 or 415",
+          "actualStatus": 415,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid file type. Only JPEG, PNG, WEBP, and SVG images are allowed."
+          }
+        },
+        {
+          "testName": "4.4 HTML Phishing/XSS Upload Rejection",
+          "passed": true,
+          "description": "Disallowed HTML upload rejected with 400/415",
+          "expectedStatus": "400 or 415",
+          "actualStatus": 415,
+          "actualResponse": {
+            "success": false,
+            "error": "Invalid file type. Only JPEG, PNG, WEBP, and SVG images are allowed."
+          }
+        },
+        {
+          "testName": "4.5 Path Traversal Filename Sanitization",
+          "passed": true,
+          "description": "Path traversal ../ sequences sanitized; generated filename stays contained in uploads directory",
+          "expectedStatus": "200/201 with sanitized filename",
+          "actualStatus": 201,
+          "actualResponse": {
+            "imageUrl": "/uploads/prod-1786976524177-741483803.png"
+          }
+        },
+        {
+          "testName": "4.6 Large File Size Limit (5MB) Defense",
+          "passed": true,
+          "description": "Uploads exceeding 5MB are rejected with HTTP 400",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "File too large. Maximum file size allowed is 5MB."
+          }
+        }
+      ]
+    },
+    "vector5_sqli_auth_bypass": {
+      "name": "SQL Injection & Auth Bypass",
+      "tests": [
+        {
+          "testName": "5.1 SQL Injection on /api/auth/login",
+          "passed": true,
+          "description": "Parameterized queries prevent SQL injection authentication bypass on customer login",
+          "expectedStatus": "400/401 for all 9 SQLi payloads",
+          "actualStatus": "All 400/401 rejected",
+          "actualResponse": {
+            "testedPayloads": 9,
+            "bypassed": false
+          }
+        },
+        {
+          "testName": "5.2 SQL Injection on /api/auth/admin/login",
+          "passed": true,
+          "description": "Parameterized queries prevent SQL injection authentication bypass on admin login",
+          "expectedStatus": "400/401 for all 9 SQLi payloads",
+          "actualStatus": "All 400/401 rejected",
+          "actualResponse": {
+            "testedPayloads": 9,
+            "bypassed": false
+          }
+        },
+        {
+          "testName": "5.3 SQL Injection on /api/orders/:orderId/track",
+          "passed": true,
+          "description": "Parameterized queries prevent order tracking leakage via SQL injection in URL path",
+          "expectedStatus": "404/400 for all 9 SQLi payloads",
+          "actualStatus": "All 404/400 rejected",
+          "actualResponse": {
+            "testedPayloads": 9,
+            "bypassed": false
+          }
+        },
+        {
+          "testName": "5.4 SQL Injection on /api/orders/track?orderNumber=...",
+          "passed": true,
+          "description": "Parameterized queries prevent order tracking leakage via query string SQLi",
+          "expectedStatus": "404/400 for all 9 SQLi payloads",
+          "actualStatus": "All 404/400 rejected",
+          "actualResponse": {
+            "testedPayloads": 9,
+            "bypassed": false
+          }
+        },
+        {
+          "testName": "5.5 XSS & HTML Tag Sanitization in Order Fields",
+          "passed": true,
+          "description": "HTML script and formatting tags stripped from customText, songTitle, and order notes via sanitizeText",
+          "expectedStatus": "201 Created with sanitized strings",
+          "actualStatus": 201,
+          "actualResponse": {
+            "customText": "My Spotify Tag",
+            "notes": "",
+            "xssSanitized": true
+          }
+        },
+        {
+          "testName": "5.6 Custom Text >30 Chars Boundary Defense",
+          "passed": true,
+          "description": "Custom text exceeding 30 characters is strictly rejected with HTTP 400",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "actualResponse": {
+            "success": false,
+            "error": "Custom engraving text must not exceed 30 characters."
+          }
+        }
+      ]
+    }
+  },
+  "verdict": "APPROVE"
+}

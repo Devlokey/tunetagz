@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en-IN" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Admin Portal — TuneTagZ</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230d1f13'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='serif' font-weight='bold' font-size='18' fill='%23c9a84c'%3ETZ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="/public/css/admin.css" />
+  <link rel="stylesheet" href="public/css/admin.css" />
+  <link rel="stylesheet" href="/public/css/customizer.css" />
+  <link rel="stylesheet" href="public/css/customizer.css" />
+</head>
+<body>
+
+  <!-- LOGIN VIEW -->
+  <div id="adminLoginView" class="admin-login-wrapper">
+    <div class="admin-login-box">
+      <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" class="admin-logo" />
+      <h1 class="admin-login-title">Developer Admin Portal</h1>
+      <p class="admin-login-sub">Authenticate with administrator credentials to manage products, orders, and fulfillment.</p>
+
+      <div class="auth-error-box" id="adminLoginError" style="display: none;" role="alert"></div>
+
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="adminEmail">Admin Email</label>
+          <input type="email" id="adminEmail" name="email" required placeholder="admin@tunetagz.com" value="admin@tunetagz.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label for="adminPassword">Admin Password</label>
+          <input type="password" id="adminPassword" name="password" required placeholder="••••••••" value="Admin@TuneTagZ2026!" autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn-primary auth-submit-btn" id="adminLoginSubmitBtn">
+          <span>Sign In to Admin Portal</span>
+        </button>
+      </form>
+
+      <div class="admin-credentials-hint">
+        <strong>Default Admin Credentials:</strong><br/>
+        Email: admin@tunetagz.com<br/>
+        Password: Admin@TuneTagZ2026!
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATED DASHBOARD VIEW -->
+  <div id="adminDashboardView" class="admin-dashboard-wrapper" style="display: none;">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div>
+        <div class="admin-brand">
+          <img src="TUNETAGZ%20LOGO.png" alt="TuneTagZ" />
+          <span class="admin-brand-label">Admin Console</span>
+        </div>
+        <nav class="admin-nav">
+          <button class="admin-nav-item active" data-tab="overview">
+            <span>📊</span> Dashboard Overview
+          </button>
+          <button class="admin-nav-item" data-tab="products">
+            <span>🏷️</span> Product Catalog
+          </button>
+          <button class="admin-nav-item" data-tab="orders">
+            <span>📦</span> Order Fulfillment
+          </button>
+          <button class="admin-nav-item" data-tab="audit">
+            <span>📜</span> Audit Trail
+          </button>
+          <a href="index.html" class="admin-nav-item" target="_blank" style="margin-top: 12px; color: var(--gold);">
+            <span>🌐</span> View Storefront ↗
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-avatar">A</div>
+          <div class="admin-user-details">
+            <strong id="adminUserBadge">admin@tunetagz.com</strong>
+            <span class="admin-role-badge">Lead Developer</span>
+          </div>
+        </div>
+        <button class="btn-admin-logout" id="adminLogoutBtn">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="admin-main">
+      <!-- PANE 1: OVERVIEW -->
+      <section id="pane-overview" class="admin-tab-pane">
+        <div class="admin-header">
+          <div>
+            <h2 class="admin-page-title">Executive Dashboard</h2>
+            <p class="admin-page-sub">Live revenue metrics, fulfillment pipeline, and inventory status.</p>
+          </div>
+          <button class="btn-primary btn-sm" onclick="AdminApp.loadStats()">🔄 Refresh KPIs</button>
+        </div>
+
+        <div class="admin-stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <div>
+              <div class="stat-value" id="statTotalSales">₹0</div>
+              <div class="stat-label">Total Revenue</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🛍️</div>
+            <div>
+              <div class="stat-value" id="statTotalOrders">0</div>
+              <div class="stat-label">Paid Orders</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏳</div>
+            <div>
+              <div class="stat-value" id="statPendingOrders">0</div>
+              <div class="stat-label">Pending Fulfillment</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏷️</div>
+            <div>
+              <div class="stat-value" id="statTotalProducts">0</div>
+              <div class="stat-label">Catalog Products</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-panel-card">
+          <div class="panel-header">
+            <h3 class="panel-title">Recent Orders</h3>
+            <button class="btn-ghost btn-sm" onclick="AdminApp.switchTab('orders')">View All Orders →</button>
+          </div>
+          <div class="admin-table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersTableBody">
+                <tr><td colspan="6" class="text-center">Loading orders...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANE 2: PRODUCTS CATALOG -->
+      <section id="pane-products" class="admin-tab-pane" style="display: none;">
+        <div class="admin-header">
+          <div>
+            <h2 class="admin-page-title">Product Catalog Manager</h2>
+            <p class="admin-page-sub">Add new items with Multer image upload, toggle live inventory stock, and edit details.</p>
+          </div>
+          <button class="btn-primary" onclick="AdminApp.openAddProductModal()">+ Add New Product</button>
+        </div>
+
+        <div class="admin-panel-card">
+          <div class="admin-table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Product / SKU</th>
+                  <th>Price</th>
+                  <th>Badge</th>
+                  <th>Inventory Stock</th>
+                  <th>Customizable</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTableBody">
+                <tr><td colspan="7" class="text-center">Loading products...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANE 3: ORDER FULFILLMENT -->
+      <section id="pane-orders" class="admin-tab-pane" style="display: none;">
+        <div class="admin-header">
+          <div>
+            <h2 class="admin-page-title">Order Fulfillment Pipeline</h2>
+            <p class="admin-page-sub">Track incoming custom Spotify orders, laser engraving progress, and dispatch tracking.</p>
+          </div>
+        </div>
+
+        <div class="admin-panel-card">
+          <div class="panel-header">
+            <div class="panel-actions">
+              <select id="orderStatusFilter" class="form-group" style="margin-bottom:0; width: 180px;">
+                <option value="ALL">All Statuses</option>
+                <option value="ORDER_RECEIVED">Order Received</option>
+                <option value="ENGRAVING">Engraving</option>
+                <option value="QUALITY_CHECK">Quality Check</option>
+                <option value="DISPATCHED">Dispatched</option>
+                <option value="DELIVERED">Delivered</option>
+                <option value="CANCELLED">Cancelled</option>
+              </select>
+              <input type="text" id="orderSearchInput" placeholder="Search by customer name, email, or order #" style="width: 320px;" />
+            </div>
+            <button class="btn-ghost btn-sm" onclick="AdminApp.loadOrders()">🔄 Refresh</button>
+          </div>
+
+          <div class="admin-table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Total</th>
+                  <th>Fulfillment Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersTableBody">
+                <tr><td colspan="7" class="text-center">Loading orders...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANE 4: AUDIT TRAIL -->
+      <section id="pane-audit" class="admin-tab-pane" style="display: none;">
+        <div class="admin-header">
+          <div>
+            <h2 class="admin-page-title">Administrator Audit Trail</h2>
+            <p class="admin-page-sub">Cryptographic log of administrative actions, stock changes, and fulfillment updates.</p>
+          </div>
+        </div>
+
+        <div class="admin-panel-card">
+          <div class="admin-table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Target</th>
+                  <th>Details</th>
+                  <th>Admin</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="adminAuditLogsTableBody">
+                <tr><td colspan="5" class="text-center">Loading audit logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ADD PRODUCT MODAL -->
+  <div class="ttz-modal-backdrop" id="addProductModal" role="dialog" aria-modal="true">
+    <div class="ttz-modal-container" style="max-width: 580px; padding: 32px;">
+      <button class="ttz-modal-close" onclick="AdminApp.closeAddProductModal()">✕</button>
+      <h2 style="font-family:'Anton',sans-serif; margin-bottom: 6px;">Add New Product</h2>
+      <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 20px;">Upload image and configure product parameters. Instant sync to storefront.</p>
+
+      <form id="addProductForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="newProdName">Product Name *</label>
+            <input type="text" id="newProdName" name="name" required placeholder="Spotify Code Tag v2" />
+          </div>
+          <div class="form-group">
+            <label for="newProdSku">SKU *</label>
+            <input type="text" id="newProdSku" name="sku" required placeholder="SPT-002" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="newProdPrice">Price (₹ INR) *</label>
+            <input type="number" id="newProdPrice" name="price" required min="1" placeholder="799" />
+          </div>
+          <div class="form-group">
+            <label for="newProdBadge">Badge (e.g. Bestseller, New, Drop 04)</label>
+            <input type="text" id="newProdBadge" name="badge" placeholder="Exclusive" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newProdDesc">Description</label>
+          <textarea id="newProdDesc" name="description" rows="3" style="width:100%; background:var(--bg2); border:1px solid var(--card-border); color:var(--cream); padding:10px; border-radius:3px;" placeholder="Laser engraved Spotify code keychain with matte black finish."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="productImageFile">Product Image (Multer Upload)</label>
+          <input type="file" id="productImageFile" name="image" accept="image/*" />
+        </div>
+
+        <div class="form-row" style="margin-top: 10px;">
+          <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+            <input type="checkbox" name="is_customizable" checked />
+            <span>Enable Spotify 2-Sided Customizer</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+            <input type="checkbox" name="in_stock" checked />
+            <span>In Stock (Available for purchase)</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btnAddProductSubmit" style="width: 100%; margin-top: 24px; padding: 12px;">
+          <span>Create & Sync Product</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/public/js/api.js"></script>
+  <script src="public/js/api.js"></script>
+  <script src="/public/js/auth.js"></script>
+  <script src="public/js/auth.js"></script>
+  <script src="/public/js/admin.js"></script>
+  <script src="public/js/admin.js"></script>
+</body>
+</html>

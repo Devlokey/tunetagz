@@ -1,0 +1,300 @@
+{
+  "timestamp": "2026-08-17T17:12:26.899Z",
+  "scenarios": {
+    "concurrency": {
+      "totalRequests": 100,
+      "simultaneousUsers": 20,
+      "successfulLifecycles": 20,
+      "failedLifecycles": 0,
+      "failures": [],
+      "uniqueOrderNumbersCount": 20,
+      "allPricesStrictlyEnforced": true,
+      "allStatusesOrderReceived": true,
+      "latencies": {
+        "min": 31.72,
+        "max": 2493.8,
+        "mean": 571.03,
+        "p50": 132.75,
+        "p90": 1884.05,
+        "p95": 2222.84,
+        "p99": 2493.8
+      },
+      "status": "PASSED"
+    },
+    "priceManipulation": {
+      "totalTests": 15,
+      "results": [
+        {
+          "attack": "price: 0 injection",
+          "httpStatus": 201,
+          "actualTotal": 699,
+          "expectedTotal": 699,
+          "tamperedBypassed": false,
+          "passed": true
+        },
+        {
+          "attack": "price: 1 injection (₹1 scam)",
+          "httpStatus": 201,
+          "actualTotal": 699,
+          "expectedTotal": 699,
+          "tamperedBypassed": false,
+          "passed": true
+        },
+        {
+          "attack": "price: -100 (Negative price attack)",
+          "httpStatus": 201,
+          "actualTotal": 699,
+          "expectedTotal": 699,
+          "tamperedBypassed": false,
+          "passed": true
+        },
+        {
+          "attack": "price: null injection",
+          "httpStatus": 201,
+          "actualTotal": 699,
+          "expectedTotal": 699,
+          "tamperedBypassed": false,
+          "passed": true
+        },
+        {
+          "attack": "price: NaN string injection",
+          "httpStatus": 201,
+          "actualTotal": 699,
+          "expectedTotal": 699,
+          "tamperedBypassed": false,
+          "passed": true
+        },
+        {
+          "attack": "tampered calculated endpoint /api/orders/calculate",
+          "status": 200,
+          "responseTotal": 699,
+          "expectedTotal": 699,
+          "tamperedBypassed": false,
+          "passed": true
+        },
+        {
+          "attack": "quantity: 0 (falsy default bypass)",
+          "httpStatus": 400,
+          "expectedStatus": 400,
+          "passed": true
+        },
+        {
+          "attack": "quantity: -5",
+          "httpStatus": 400,
+          "expectedStatus": 400,
+          "passed": true
+        },
+        {
+          "attack": "quantity: \"five\"",
+          "httpStatus": 400,
+          "expectedStatus": 400,
+          "passed": true
+        },
+        {
+          "attack": "quantity: 0.5 (fractional quantity)",
+          "httpStatus": 400,
+          "expectedStatus": 400,
+          "passed": true
+        },
+        {
+          "attack": "empty items array: []",
+          "httpStatus": 400,
+          "expectedStatus": 400,
+          "passed": true
+        },
+        {
+          "attack": "SQL Injection in customer_name",
+          "httpStatus": 201,
+          "expectedStatus": 201,
+          "passed": true
+        },
+        {
+          "attack": "SQL Injection in shipping_city",
+          "httpStatus": 201,
+          "expectedStatus": 201,
+          "passed": true
+        },
+        {
+          "attack": "SQL Injection in notes",
+          "httpStatus": 201,
+          "expectedStatus": 201,
+          "passed": true
+        },
+        {
+          "attack": "Bit-flipped HMAC payment signature verification",
+          "httpStatus": 400,
+          "expectedStatus": 400,
+          "passed": true
+        }
+      ],
+      "allAttacksDefeated": true,
+      "status": "PASSED"
+    },
+    "stateMachine": {
+      "totalTests": 7,
+      "results": [
+        {
+          "test": "Unauthenticated status update attempt",
+          "expectedStatus": 401,
+          "actualStatus": 401,
+          "passed": true
+        },
+        {
+          "test": "Customer RBAC escalation attempt to admin order status endpoint",
+          "expectedStatus": 403,
+          "actualStatus": 403,
+          "passed": true
+        },
+        {
+          "test": "Illegal Transition: PENDING_PAYMENT -> DELIVERED",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "passed": true
+        },
+        {
+          "test": "Illegal Transition: PENDING_PAYMENT -> QUALITY_CHECK",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "passed": true
+        },
+        {
+          "test": "Valid Fulfillment Progression (PENDING_PAYMENT -> ORDER_RECEIVED -> ENGRAVING -> QC -> DISPATCHED -> DELIVERED)",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true
+        },
+        {
+          "test": "Illegal Backwards Transition: DELIVERED (Terminal) -> ORDER_RECEIVED",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "passed": true
+        },
+        {
+          "test": "Illegal Transition: DELIVERED -> CANCELLED",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "passed": true
+        }
+      ],
+      "allViolationsRejected": true,
+      "status": "PASSED"
+    },
+    "spotifyFuzzing": {
+      "totalTests": 15,
+      "results": [
+        {
+          "test": "Missing url query param on /api/spotify/preview",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "passed": true
+        },
+        {
+          "test": "Malformed URL: \"not_a_spotify_link\"",
+          "expected": "isValid: false (graceful handling)",
+          "actualStatus": 200,
+          "isValid": false,
+          "passed": true
+        },
+        {
+          "test": "Malformed URL: \"https://google.com/search?q=spotify\"",
+          "expected": "isValid: false (graceful handling)",
+          "actualStatus": 200,
+          "isValid": false,
+          "passed": true
+        },
+        {
+          "test": "Malformed URL: \"https://open.spotify.com/invalid/12345\"",
+          "expected": "isValid: false (graceful handling)",
+          "actualStatus": 200,
+          "isValid": false,
+          "passed": true
+        },
+        {
+          "test": "Malformed URL: \"spotify:invalid:123\"",
+          "expected": "isValid: false (graceful handling)",
+          "actualStatus": 200,
+          "isValid": false,
+          "passed": true
+        },
+        {
+          "test": "Malformed URL: \"https://open.spotify.com/track/short\"",
+          "expected": "isValid: false (graceful handling)",
+          "actualStatus": 200,
+          "isValid": false,
+          "passed": true
+        },
+        {
+          "test": "Malformed URL: \"https://open.spotify.com/track/toolong_123456789012345678901234567890\"",
+          "expected": "isValid: false (graceful handling)",
+          "actualStatus": 200,
+          "isValid": false,
+          "passed": true
+        },
+        {
+          "test": "Valid Spotify Link format: Standard Web URL",
+          "actualStatus": 200,
+          "isValid": true,
+          "hasSvg": true,
+          "passed": true
+        },
+        {
+          "test": "Valid Spotify Link format: Spotify URI",
+          "actualStatus": 200,
+          "isValid": true,
+          "hasSvg": true,
+          "passed": true
+        },
+        {
+          "test": "Valid Spotify Link format: Album URL",
+          "actualStatus": 200,
+          "isValid": true,
+          "hasSvg": true,
+          "passed": true
+        },
+        {
+          "test": "Valid Spotify Link format: 22-Char Raw Track ID",
+          "actualStatus": 200,
+          "isValid": true,
+          "hasSvg": true,
+          "passed": true
+        },
+        {
+          "test": "Custom Text Exact 30-char Boundary (Permitted Maximum)",
+          "expectedStatus": 201,
+          "actualStatus": 201,
+          "passed": true
+        },
+        {
+          "test": "Custom Text 31-char Boundary (Strictly Rejected)",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "passed": true
+        },
+        {
+          "test": "Custom Text 10,000-char Buffer Overflow Attempt (Strictly Rejected)",
+          "expectedStatus": 400,
+          "actualStatus": 400,
+          "passed": true
+        },
+        {
+          "test": "XSS Angle Brackets Stripping / Sanitization in Custom Engraving Text & Notes",
+          "expectedSanitized": true,
+          "actualSanitized": true,
+          "passed": true
+        }
+      ],
+      "allFuzzTestsPassed": true,
+      "status": "PASSED"
+    }
+  },
+  "summary": {
+    "totalTests": 0,
+    "passed": 0,
+    "failed": 0,
+    "verdict": "APPROVE",
+    "totalScenarios": 4,
+    "passedScenarios": 4,
+    "failedScenarios": 0,
+    "totalAssertions": 57
+  }
+}
