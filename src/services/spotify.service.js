@@ -85,49 +85,67 @@ function generateSoundwaveBars(trackId = 'default', barCount = 23) {
 }
 
 /**
- * Generates an SVG representation of the Spotify Code Tag front side
+ * Generates an SVG representation of the Spotify Code Tag front side matching physical keychain
  */
 function generateSpotifyCodeSvg(trackId, options = {}) {
   const {
-    width = 400,
-    height = 100,
-    color = '#D4AF37', // Gold color
-    backgroundColor = '#121212'
+    orientation = 'vertical',
+    color = '#dfba5e'
   } = options;
 
   const parsed = parseSpotifyUrl(trackId);
   const effectiveId = parsed.isValid ? parsed.id : (trackId || '4cOdK2wGLETKBW3PvgPWqT');
   const bars = generateSoundwaveBars(effectiveId, 23);
 
-  const barWidth = 6;
-  const barGap = 6;
-  const startX = 80;
-  const centerY = height / 2;
+  if (orientation === 'horizontal') {
+    const width = 400;
+    const height = 100;
+    const barWidth = 6;
+    const barGap = 6;
+    const startX = 80;
+    const centerY = height / 2;
 
-  let svgBars = '';
-  bars.forEach((hPercent, idx) => {
-    const barHeight = (hPercent / 100) * (height - 30);
-    const x = startX + idx * (barWidth + barGap);
-    const y = centerY - barHeight / 2;
-    svgBars += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="${barWidth / 2}" fill="${color}" />\n`;
-  });
+    let svgBars = '';
+    bars.forEach((hPercent, idx) => {
+      const barHeight = (hPercent / 100) * (height - 30);
+      const x = startX + idx * (barWidth + barGap);
+      const y = centerY - barHeight / 2;
+      svgBars += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="${barWidth / 2}" fill="${color}" />\n`;
+    });
 
-  return `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
-      <rect width="${width}" height="${height}" fill="${backgroundColor}" rx="12" />
-      <!-- Spotify Logo Outline -->
-      <g transform="translate(20, 25)">
-        <circle cx="25" cy="25" r="22" fill="${color}" />
-        <path d="M 12 21 C 20 18 30 19 38 23" stroke="${backgroundColor}" stroke-width="3.5" stroke-linecap="round" fill="none" />
-        <path d="M 14 27 C 21 24 29 25 36 29" stroke="${backgroundColor}" stroke-width="3" stroke-linecap="round" fill="none" />
-        <path d="M 16 33 C 22 30 28 31 34 34" stroke="${backgroundColor}" stroke-width="2.5" stroke-linecap="round" fill="none" />
-      </g>
-      <!-- Soundwave Bars -->
-      <g>
-        ${svgBars}
-      </g>
-    </svg>
-  `.trim();
+    return `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" class="spotify-soundwave-svg">
+        <g transform="translate(18, 17) scale(0.075)" fill="${color}">
+          <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm114 358c-4 7-14 9-21 5-58-35-131-43-217-24-8 2-16-3-18-11-2-8 3-16 11-18 94-21 175-12 240 27 7 4 9 14 5 21zm30-67c-6 9-17 12-26 7-66-41-167-53-246-29-10 3-21-3-24-13-3-10 3-21 13-24 90-27 201-14 276 33 9 5 12 17 7 26zm3-70c-79-47-210-51-285-28-12 4-25-3-28-15-4-12 3-25 15-28 86-26 230-21 321 33 11 6 14 21 8 32-6 10-20 14-31 6z"/>
+        </g>
+        <g>${svgBars}</g>
+      </svg>
+    `.trim();
+  } else {
+    // Authentic Vertical Barcode format matching physical keychain (media_1788876088753.png)
+    const width = 70;
+    const height = 270;
+    const startY = 216;
+    const spacing = 8.8;
+    const barHeight = 4;
+
+    let svgBars = '';
+    bars.forEach((hPercent, idx) => {
+      const barWidth = Math.round(12 + (hPercent / 100) * 38);
+      const y = Math.round(startY - idx * spacing);
+      const x = Math.round((width - barWidth) / 2);
+      svgBars += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="2" fill="${color}" />\n`;
+    });
+
+    return `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" class="spotify-soundwave-svg vertical-soundwave" aria-label="Spotify Soundwave Barcode">
+        <g transform="translate(20, 232) scale(0.06)" fill="${color}">
+          <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm114 358c-4 7-14 9-21 5-58-35-131-43-217-24-8 2-16-3-18-11-2-8 3-16 11-18 94-21 175-12 240 27 7 4 9 14 5 21zm30-67c-6 9-17 12-26 7-66-41-167-53-246-29-10 3-21-3-24-13-3-10 3-21 13-24 90-27 201-14 276 33 9 5 12 17 7 26zm3-70c-79-47-210-51-285-28-12 4-25-3-28-15-4-12 3-25 15-28 86-26 230-21 321 33 11 6 14 21 8 32-6 10-20 14-31 6z"/>
+        </g>
+        <g>${svgBars}</g>
+      </svg>
+    `.trim();
+  }
 }
 
 /**

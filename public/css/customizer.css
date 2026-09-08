@@ -420,14 +420,15 @@
   color: var(--gold);
 }
 
-/* 3D Keychain Card Flip */
+/* 3D Keychain Card Flip (Authentic Slender Keychain Tag - media_1788876088753.png) */
 .tag-3d-scene {
-  width: 280px;
-  height: 380px;
+  width: 140px;
+  height: 440px;
   perspective: 1000px;
   cursor: pointer;
   user-select: none;
-  margin: 10px 0 20px;
+  margin: 36px 0 20px;
+  position: relative;
 }
 .tag-3d-card {
   width: 100%;
@@ -445,44 +446,61 @@
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: 12px;
-  background: #111512;
-  border: 2px solid #28322a;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.8), inset 0 0 24px rgba(0,0,0,0.6);
-  padding: 20px 16px;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #181b18 0%, #0d0f0d 50%, #151815 100%);
+  border: 2px solid #2d382e;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.9), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -2px 6px rgba(0, 0, 0, 0.8);
+  padding: 14px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden;
+  overflow: visible;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 .tag-back {
   transform: rotateY(180deg);
 }
 
-.tag-keyring {
-  width: 44px;
-  height: 44px;
-  border: 4px solid #333;
-  border-radius: 50%;
+/* Realistic Key Ring & Metal Chain Attachment */
+.tag-chain-wrap {
   position: absolute;
-  top: -22px;
-  left: calc(50% - 22px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  z-index: 5;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+.tag-keyring {
+  width: 52px;
+  height: 52px;
+  border: 4px double #3a3d3b;
+  border-radius: 50%;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+  margin-bottom: -7px;
   transition: border-color 0.3s;
 }
-.ring-matte-black { border-color: #2b2b2b; }
-.ring-gold-brass { border-color: #c9a84c; box-shadow: 0 0 12px rgba(201,168,76,0.4); }
-.ring-silver-steel { border-color: #d1d5db; }
+.tag-chain-link {
+  width: 9px;
+  height: 14px;
+  border: 2.5px solid #3a3d3b;
+  border-radius: 5px;
+  margin-bottom: -5px;
+  transition: border-color 0.3s;
+}
 
 .tag-hole {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   background: #060907;
   border: 2px solid #28322a;
   border-radius: 50%;
-  margin-top: 6px;
+  margin-top: 4px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.9);
+  flex-shrink: 0;
 }
 
 .tag-metal-body {
@@ -490,72 +508,92 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
+  padding: 10px 0 6px;
+  position: relative;
 }
 
 .tag-front-content {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 .spotify-waveform-box {
-  background: #0b0e0c;
-  border: 1px solid rgba(201, 168, 76, 0.25);
-  border-radius: 6px;
-  padding: 12px 8px;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex: 1;
 }
 .spotify-soundwave-svg {
-  width: 100%;
-  height: auto;
+  width: 65px;
+  height: 250px;
   display: block;
+  filter: drop-shadow(0 0 3px rgba(201, 168, 76, 0.4));
 }
+
 .preview-song-info {
-  margin-top: 14px;
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-width: 110px;
 }
 .preview-song-info .song-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .preview-song-info .song-artist {
   font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.6rem;
   color: var(--gold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Back Side Vertical Laser Engraving */
 .tag-back-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 20px 10px;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 10px 0;
+}
+.engraving-laser-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #dfba5e;
+  text-shadow: 0 0 8px rgba(201, 168, 76, 0.5), 0 0 1px #fff;
+  letter-spacing: 0.14em;
+  word-break: break-word;
+  max-height: 280px;
+  overflow: hidden;
+  text-align: center;
+  margin: auto 0;
 }
 .engraving-brand-logo {
   font-family: 'Anton', sans-serif;
-  letter-spacing: 0.15em;
-  font-size: 0.8rem;
-  color: rgba(201, 168, 76, 0.4);
-}
-.engraving-laser-text {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #f1df9a;
-  text-shadow: 0 0 10px rgba(201, 168, 76, 0.6), 0 0 2px #fff;
-  letter-spacing: 0.05em;
-  word-break: break-word;
-  padding: 0 8px;
-}
-.engraving-sub-label {
-  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.18em;
   font-size: 0.65rem;
-  color: rgba(232, 228, 200, 0.35);
-  letter-spacing: 0.12em;
+  color: rgba(201, 168, 76, 0.45);
 }
 
 .tag-sheen {
@@ -563,7 +601,49 @@
   inset: 0;
   background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.3) 100%);
   pointer-events: none;
+  border-radius: 24px;
 }
+
+/* Finish Variations (Matte Black, Gold Brass, Silver Steel) */
+/* Matte Black (Default) */
+.finish-matte-black .tag-face {
+  background: linear-gradient(145deg, #181b18 0%, #0d0f0d 50%, #151815 100%);
+  border-color: #2d382e;
+}
+.finish-matte-black .tag-keyring,
+.finish-matte-black .tag-chain-link { border-color: #3f4441; }
+
+/* Gold Brass */
+.finish-gold-brass .tag-face {
+  background: linear-gradient(145deg, #e5c158 0%, #c9a84c 45%, #997b2b 85%, #d4af37 100%);
+  border-color: #f3d477;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8), inset 0 1px 3px rgba(255, 255, 255, 0.4), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+}
+.finish-gold-brass .tag-keyring,
+.finish-gold-brass .tag-chain-link { border-color: #e5c158; }
+.finish-gold-brass .spotify-soundwave-svg path,
+.finish-gold-brass .spotify-soundwave-svg rect,
+.finish-gold-brass .spotify-soundwave-svg circle { fill: #1a160a !important; }
+.finish-gold-brass .engraving-laser-text { color: #1a160a !important; text-shadow: none !important; }
+.finish-gold-brass .engraving-brand-logo { color: rgba(26, 22, 10, 0.6) !important; }
+.finish-gold-brass .preview-song-info .song-title { color: #1a160a !important; }
+.finish-gold-brass .preview-song-info .song-artist { color: #3d3419 !important; }
+
+/* Silver Steel */
+.finish-silver-steel .tag-face {
+  background: linear-gradient(145deg, #f3f4f6 0%, #d1d5db 45%, #9ca3af 85%, #e5e7eb 100%);
+  border-color: #ffffff;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8), inset 0 1px 3px rgba(255, 255, 255, 0.6), inset 0 -2px 6px rgba(0, 0, 0, 0.3);
+}
+.finish-silver-steel .tag-keyring,
+.finish-silver-steel .tag-chain-link { border-color: #e5e7eb; }
+.finish-silver-steel .spotify-soundwave-svg path,
+.finish-silver-steel .spotify-soundwave-svg rect,
+.finish-silver-steel .spotify-soundwave-svg circle { fill: #111827 !important; }
+.finish-silver-steel .engraving-laser-text { color: #111827 !important; text-shadow: none !important; }
+.finish-silver-steel .engraving-brand-logo { color: rgba(17, 24, 39, 0.6) !important; }
+.finish-silver-steel .preview-song-info .song-title { color: #111827 !important; }
+.finish-silver-steel .preview-song-info .song-artist { color: #374151 !important; }
 
 .btn-flip-tag {
   display: flex;

@@ -77,7 +77,7 @@
       }
     },
 
-    // ── Generate Spotify Soundwave SVG (Deterministic 23-bar algorithm) ──
+    // ── Generate Spotify Soundwave SVG (Vertical Barcode matching physical keychain) ──
     generateLocalSvg(seed = 'tunetagz') {
       let hash = 0;
       for (let i = 0; i < seed.length; i++) {
@@ -87,25 +87,23 @@
 
       const bars = [];
       const numBars = 23;
-      const svgWidth = 400;
-      const svgHeight = 70;
-      const barWidth = 6;
-      const spacing = 11;
-      const startX = 65;
+      const svgWidth = 70;
+      const svgHeight = 270;
+      const barHeight = 4;
+      const startY = 216;
+      const spacing = 8.8;
 
       for (let i = 0; i < numBars; i++) {
         const pseudoRand = Math.abs(Math.sin(hash + i * 1.7) * 10000) % 1;
-        // Height between 14px and 54px
-        const barHeight = Math.round(14 + pseudoRand * 40);
-        const x = startX + i * (barWidth + spacing);
-        const y = Math.round((svgHeight - barHeight) / 2);
-        bars.push(`<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="3" fill="#c9a84c" />`);
+        const barWidth = Math.round(12 + pseudoRand * 38);
+        const y = Math.round(startY - i * spacing);
+        const x = Math.round((svgWidth - barWidth) / 2);
+        bars.push(`<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="2" fill="#c9a84c" />`);
       }
 
       return `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgWidth} ${svgHeight}" class="spotify-soundwave-svg" aria-label="Spotify Soundwave Barcode">
-          <!-- Spotify Logo Icon -->
-          <g transform="translate(18, 17) scale(0.075)" fill="#c9a84c">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgWidth} ${svgHeight}" class="spotify-soundwave-svg vertical-soundwave" aria-label="Spotify Soundwave Barcode">
+          <g transform="translate(20, 232) scale(0.06)" fill="#c9a84c">
             <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm114 358c-4 7-14 9-21 5-58-35-131-43-217-24-8 2-16-3-18-11-2-8 3-16 11-18 94-21 175-12 240 27 7 4 9 14 5 21zm30-67c-6 9-17 12-26 7-66-41-167-53-246-29-10 3-21-3-24-13-3-10 3-21 13-24 90-27 201-14 276 33 9 5 12 17 7 26zm3-70c-79-47-210-51-285-28-12 4-25-3-28-15-4-12 3-25 15-28 86-26 230-21 321 33 11 6 14 21 8 32-6 10-20 14-31 6z"/>
           </g>
           ${bars.join('')}
@@ -187,10 +185,11 @@
       document.querySelectorAll('.finish-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.finish === finish);
       });
-      const tagRing = document.querySelectorAll('.tag-keyring');
-      tagRing.forEach(ring => {
-        ring.className = `tag-keyring ring-${finish.toLowerCase().replace(' ', '-')}`;
-      });
+      const scene = document.getElementById('tag3DScene');
+      if (scene) {
+        const finishClass = 'finish-' + finish.toLowerCase().replace(/\s+/g, '-');
+        scene.className = 'tag-3d-scene ' + finishClass;
+      }
     },
 
     proceedToCheckout() {
@@ -231,11 +230,15 @@
                   </div>
                 </div>
 
-                <div class="tag-3d-scene" id="tag3DScene" title="Click or tap to flip keychain">
+                <div class="tag-3d-scene finish-matte-black" id="tag3DScene" title="Click or tap to flip keychain">
                   <div class="tag-3d-card" id="customizer3DCard">
                     <!-- FRONT SIDE -->
                     <div class="tag-face tag-front">
-                      <div class="tag-keyring ring-matte-black"></div>
+                      <div class="tag-chain-wrap">
+                        <div class="tag-keyring"></div>
+                        <div class="tag-chain-link"></div>
+                        <div class="tag-chain-link"></div>
+                      </div>
                       <div class="tag-hole"></div>
                       <div class="tag-metal-body">
                         <div class="tag-front-content">
@@ -253,13 +256,16 @@
 
                     <!-- BACK SIDE -->
                     <div class="tag-face tag-back">
-                      <div class="tag-keyring ring-matte-black"></div>
+                      <div class="tag-chain-wrap">
+                        <div class="tag-keyring"></div>
+                        <div class="tag-chain-link"></div>
+                        <div class="tag-chain-link"></div>
+                      </div>
                       <div class="tag-hole"></div>
                       <div class="tag-metal-body">
                         <div class="tag-back-content">
-                          <div class="engraving-brand-logo">TUNETAGZ</div>
                           <div class="engraving-laser-text" id="backCardCustomText">Amal & Sarah</div>
-                          <div class="engraving-sub-label">LASER ENGRAVED • 2026</div>
+                          <div class="engraving-brand-logo">TUNETAGZ</div>
                         </div>
                       </div>
                       <div class="tag-sheen"></div>
