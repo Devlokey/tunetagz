@@ -111,6 +111,11 @@ async function seedDatabase() {
     }
   }
 
+  // Clean up any test/extra products so only the 3 main products exist on the storefront
+  if (process.env.NODE_ENV !== 'test') {
+    db.prepare(`DELETE FROM products WHERE sku NOT IN ('SPT-001', 'RKY-001', 'DRP-003')`).run();
+  }
+
   // 3. Seed Default Store Settings
   const defaultSettings = [
     { key: 'store_name', value: 'TuneTagZ', description: 'Store display name' },
